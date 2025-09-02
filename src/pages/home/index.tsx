@@ -11,6 +11,7 @@ import Navbar from '../../components/navbar';
 import SectionIntro from './components/section-intro';
 import OutstandingProducts from './components/outstanding-products';
 import type { Product } from '../../interfaces/Product';
+import ContactSection from './components/contact-section';
 
 const Home = () => {
 	const { data: dataCompanyInfo, loading: loadingGetCompanyInfo } =
@@ -51,6 +52,7 @@ const Home = () => {
 				introImg={dataCompanyInfo?.img_intro ?? ''}
 			/>
 			<OutstandingProducts listProduct={dataProduct?.slice(0, 3) ?? []} />
+			<ContactSection />
 		</Wrapper>
 	);
 };
