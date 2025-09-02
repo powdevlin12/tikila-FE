@@ -7,6 +7,7 @@ import { RotateLoader } from 'react-spinners';
 import { COLORS } from '../../contants/colors';
 import { Container } from 'react-bootstrap';
 import type { CompanyContact } from '../../interfaces/CompanyContact';
+import Navbar from '../../components/navbar';
 
 const Home = () => {
 	const { data: dataCompanyInfo, loading: loadingGetCompanyInfo } =
@@ -37,6 +38,7 @@ const Home = () => {
 				ytLink={dataCompanyContact?.zalo_link ?? ''}
 				tiktokLink={dataCompanyContact?.tiktok_link ?? ''}
 			/>
+			<Navbar />
 		</Wrapper>
 	);
 };

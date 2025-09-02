@@ -1,0 +1,148 @@
+/* Custom Navbar Styles */
+.custom-navbar {
+	border-bottom: 1px solid #e0e0e0;
+	padding: 0.5rem 0;
+	background-color: #ffffff !important;
+}
+
+/* Brand/Logo Styles */
+.navbar-brand-custom {
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	color: #0066cc !important;
+	font-weight: bold;
+}
+
+.brand-text {
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: #0066cc;
+	letter-spacing: 1px;
+}
+
+/* Navigation Links */
+.navbar-nav-custom {
+	margin-left: 2rem;
+}
+
+.nav-link-custom {
+	color: #333 !important;
+	font-weight: 500;
+	padding: 0.5rem 1rem !important;
+	text-decoration: none;
+	border-bottom: 3px solid transparent;
+	transition: all 0.3s ease;
+}
+
+.nav-link-custom:hover,
+.nav-link-custom.active {
+	color: #0066cc !important;
+	border-bottom-color: #0066cc;
+}
+
+/* Search Form */
+.search-form {
+	min-width: 300px;
+}
+
+.search-container {
+	display: flex;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	overflow: hidden;
+	background: white;
+}
+
+.search-input {
+	border: none;
+	border-radius: 0;
+	box-shadow: none;
+	padding: 0.5rem 1rem;
+	flex: 1;
+}
+
+.search-input:focus {
+	border: none;
+	box-shadow: none;
+	outline: none;
+}
+
+.search-btn {
+	border: none;
+	border-radius: 0;
+	background: #f8f9fa;
+	color: #666;
+	padding: 0.5rem 1rem;
+	border-left: 1px solid #ddd;
+}
+
+.search-btn:hover {
+	background: #e9ecef;
+	border-color: #ddd;
+}
+
+/* Hotline Container */
+.hotline-container {
+	display: flex;
+	align-items: center;
+	color: #0066cc;
+	font-weight: 500;
+}
+
+.hotline-info {
+	text-align: right;
+}
+
+.hotline-label {
+	display: block;
+	font-size: 0.8rem;
+	color: #666;
+	margin-bottom: 2px;
+}
+
+.hotline-number {
+	display: flex;
+	align-items: center;
+	font-size: 1rem;
+	font-weight: bold;
+	color: #0066cc;
+}
+
+.container-navbar {
+	padding: 0.25rem 10rem;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+	.search-form {
+		min-width: auto;
+		width: 100%;
+		margin: 1rem 0;
+	}
+
+	.hotline-container {
+		margin-top: 1rem;
+		justify-content: center;
+	}
+
+	.navbar-nav-custom {
+		margin-left: 0;
+		text-align: center;
+		row-gap: 1rem;
+	}
+}
+
+@media (max-width: 576px) {
+	.search-container {
+		width: 100%;
+	}
+
+	.brand-text {
+		font-size: 1.2rem;
+	}
+
+	.hotline-info {
+		text-align: center;
+	}
+}
