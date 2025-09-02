@@ -8,6 +8,7 @@ import { COLORS } from '../../contants/colors';
 import { Container } from 'react-bootstrap';
 import type { CompanyContact } from '../../interfaces/CompanyContact';
 import Navbar from '../../components/navbar';
+import SectionIntro from './components/section-intro';
 
 const Home = () => {
 	const { data: dataCompanyInfo, loading: loadingGetCompanyInfo } =
@@ -39,6 +40,10 @@ const Home = () => {
 				tiktokLink={dataCompanyContact?.tiktok_link ?? ''}
 			/>
 			<Navbar />
+			<SectionIntro
+				introContent={dataCompanyInfo?.intro_text ?? ''}
+				introImg={dataCompanyInfo?.img_intro ?? ''}
+			/>
 		</Wrapper>
 	);
 };
@@ -46,7 +51,6 @@ const Home = () => {
 const Wrapper = styled.section`
 	background: #ffffff;
 	width: 100vw;
-	height: 100vh;
 	min-height: 100vh;
 	box-sizing: border-box;
 	margin: 0;
