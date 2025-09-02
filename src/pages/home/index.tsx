@@ -52,7 +52,7 @@ const Home = () => {
 				introImg={dataCompanyInfo?.img_intro ?? ''}
 			/>
 			<OutstandingProducts listProduct={dataProduct?.slice(0, 3) ?? []} />
-			<ContactSection />
+			<ContactSection listProduct={dataProduct} />
 		</Wrapper>
 	);
 };

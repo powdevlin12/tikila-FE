@@ -8,10 +8,6 @@ type SectionIntroProps = {
 };
 
 const SectionIntro = ({ introContent, introImg }: SectionIntroProps) => {
-	console.log({
-		introContent,
-		introImg,
-	});
 	return (
 		<SectionWrapper>
 			<Container fluid>
