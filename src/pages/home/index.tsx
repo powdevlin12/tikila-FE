@@ -50,7 +50,7 @@ const Home = () => {
 				introContent={dataCompanyInfo?.intro_text ?? ''}
 				introImg={dataCompanyInfo?.img_intro ?? ''}
 			/>
-			<OutstandingProducts listProduct={dataProduct.slice(0, 3)} />
+			<OutstandingProducts listProduct={dataProduct?.slice(0, 3) ?? []} />
 		</Wrapper>
 	);
 };

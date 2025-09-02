@@ -19,16 +19,16 @@ const OutstandingProducts = ({ listProduct }: OutstandingProductsProps) => {
 
 				{/* Products Grid */}
 				<Row>
-					{listProduct.map(product => (
+					{listProduct?.map(product => (
 						<Col lg={4} md={6} sm={12} key={product.id}>
 							<ItemOutstandingProduct
-								title={product.title}
-								description={product.description}
-								image={product.image_url}
+								title={product?.title || ''}
+								description={product?.description || ''}
+								image={product?.image_url || ''}
 								buttonText={'LIÊN HỆ NGAY'}
 							/>
 						</Col>
-					))}
+					)) ?? []}
 				</Row>
 
 				{/* View All Button */}
