@@ -9,6 +9,7 @@ import { Container } from 'react-bootstrap';
 import type { CompanyContact } from '../../interfaces/CompanyContact';
 import Navbar from '../../components/navbar';
 import SectionIntro from './components/section-intro';
+import OutstandingProducts from './components/outstanding-products';
 
 const Home = () => {
 	const { data: dataCompanyInfo, loading: loadingGetCompanyInfo } =
@@ -44,6 +45,7 @@ const Home = () => {
 				introContent={dataCompanyInfo?.intro_text ?? ''}
 				introImg={dataCompanyInfo?.img_intro ?? ''}
 			/>
+			<OutstandingProducts />
 		</Wrapper>
 	);
 };
