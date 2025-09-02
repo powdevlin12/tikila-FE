@@ -2,39 +2,13 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import styled from 'styled-components';
 import ItemOutstandingProduct from './item-outstanding-product';
+import type { Product } from '../../../../interfaces/Product';
 
-const OutstandingProducts = () => {
-	// Fake data giống như trong hình
-	const outstandingProducts = [
-		{
-			id: 1,
-			title: 'HỖ TRỢ KHỞI NGHIỆP KINH DOANH',
-			description:
-				'Cung cấp các dịch vụ hỗ trợ hoàn chỉnh cho doanh nghiệp được nhượng quyền',
-			image:
-				'https://images.unsplash.com/photo-1556740758-90de374c12ad?w=400&h=300&fit=crop',
-			buttonText: 'LIÊN HỆ NGAY',
-		},
-		{
-			id: 2,
-			title: 'CÁC THIẾT BỊ GIẶT CÔNG NGHIỆP TỰ PH..',
-			description:
-				'Máy móc hiện đại. Đảm bảo quần áo luôn sạch sẽ và thơm tho. Dịch vụ chuyên nghiệp. Đội ngũ nh..',
-			image:
-				'https://images.unsplash.com/photo-1582735689369-4fe89db7114c?w=400&h=300&fit=crop',
-			buttonText: 'LIÊN HỆ NGAY',
-		},
-		{
-			id: 3,
-			title: 'ĐIỀU QUAN TRỌNG KHI MỞ TIỆM GIẶT',
-			description:
-				'Trước khi mở tiệm giặt sấy bạn nên xem 10 điều này để thành công.. Liên hệ tư vấn: 0868937128',
-			image:
-				'https://images.unsplash.com/photo-1528699633788-424224dc89b5?w=400&h=300&fit=crop',
-			buttonText: 'LIÊN HỆ NGAY',
-		},
-	];
+type OutstandingProductsProps = {
+	listProduct: Product[];
+};
 
+const OutstandingProducts = ({ listProduct }: OutstandingProductsProps) => {
 	return (
 		<SectionWrapper>
 			<Container fluid>
@@ -45,13 +19,13 @@ const OutstandingProducts = () => {
 
 				{/* Products Grid */}
 				<Row>
-					{outstandingProducts.map(product => (
+					{listProduct.map(product => (
 						<Col lg={4} md={6} sm={12} key={product.id}>
 							<ItemOutstandingProduct
 								title={product.title}
 								description={product.description}
-								image={product.image}
-								buttonText={product.buttonText}
+								image={product.image_url}
+								buttonText={'LIÊN HỆ NGAY'}
 							/>
 						</Col>
 					))}

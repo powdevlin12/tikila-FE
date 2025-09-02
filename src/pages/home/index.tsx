@@ -10,6 +10,7 @@ import type { CompanyContact } from '../../interfaces/CompanyContact';
 import Navbar from '../../components/navbar';
 import SectionIntro from './components/section-intro';
 import OutstandingProducts from './components/outstanding-products';
+import type { Product } from '../../interfaces/Product';
 
 const Home = () => {
 	const { data: dataCompanyInfo, loading: loadingGetCompanyInfo } =
@@ -18,7 +19,11 @@ const Home = () => {
 	const { data: dataCompanyContact, loading: loadingGetCompanyContact } =
 		useApiWithQuery<CompanyContact>('/company/contact', {});
 
-	if (loadingGetCompanyInfo || loadingGetCompanyContact) {
+	const { data: dataProduct, loading: loadingGetProduct } = useApiWithQuery<
+		Product[]
+	>('/products', {});
+
+	if (loadingGetCompanyInfo || loadingGetCompanyContact || loadingGetProduct) {
 		return (
 			<Wrapper>
 				<Container
@@ -45,7 +50,7 @@ const Home = () => {
 				introContent={dataCompanyInfo?.intro_text ?? ''}
 				introImg={dataCompanyInfo?.img_intro ?? ''}
 			/>
-			<OutstandingProducts />
+			<OutstandingProducts listProduct={dataProduct.slice(0, 3)} />
 		</Wrapper>
 	);
 };
