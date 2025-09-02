@@ -35,13 +35,7 @@ const SectionIntro = ({ introContent, introImg }: SectionIntroProps) => {
 					{/* Right Column - Image */}
 					<Col lg={6} md={12}>
 						<ImageWrapper>
-							<MainImage
-								src={
-									introImg ||
-									'https://media-cdn-v2.laodong.vn/storage/newsportal/2025/2/3/1458180/Ronaldo-1.jpg?w=800&h=496&crop=auto&scale=both'
-								}
-								alt='Công ty Tikila'
-							/>
+							<MainImage src={introImg || ''} alt='Công ty Tikila' />
 						</ImageWrapper>
 					</Col>
 				</Row>
