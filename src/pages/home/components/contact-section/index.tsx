@@ -3,6 +3,9 @@ import { Button, Container, Form, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import sendIcon from '../../../../assets/send.png';
 import type { Product } from '../../../../interfaces/Product';
+import { Bounce, toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { contactCustomerService } from '../../../../services/contactCustomer';
 
 type ContactSectionProps = {
 	listProduct: Product[];
@@ -15,6 +18,7 @@ const ContactSection = ({ listProduct }: ContactSectionProps) => {
 		service: '',
 		message: '',
 	});
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const handleInputChange = (
 		e: React.ChangeEvent<
@@ -28,10 +32,50 @@ const ContactSection = ({ listProduct }: ContactSectionProps) => {
 		}));
 	};
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		console.log('Form submitted:', formData);
-		// Handle form submission here
+
+		// Validation cơ bản
+		if (
+			!formData.fullName.trim() ||
+			!formData.phone.trim() ||
+			!formData.message.trim()
+		) {
+			toast.error('Vui lòng điền đầy đủ thông tin bắt buộc');
+			return;
+		}
+
+		setIsSubmitting(true);
+
+		try {
+			// Chuẩn bị dữ liệu gửi lên API
+			const contactData = {
+				full_name: formData.fullName.trim(),
+				phone_customer: formData.phone.trim(),
+				message: formData.message.trim(),
+				...(formData.service && { service_id: parseInt(formData.service) }),
+			};
+
+			// Gọi API
+			await contactCustomerService.saveCustomerContact(contactData);
+
+			// Thành công
+			toast.success('Thông tin của bạn đã được gửi thành công!');
+
+			// Reset form
+			setFormData({
+				fullName: '',
+				phone: '',
+				service: '',
+				message: '',
+			});
+		} catch (error) {
+			// Xử lý lỗi
+			console.error('Error submitting contact:', error);
+			toast.error('Có lỗi xảy ra khi gửi thông tin. Vui lòng thử lại!');
+		} finally {
+			setIsSubmitting(false);
+		}
 	};
 
 	return (
@@ -99,16 +143,28 @@ const ContactSection = ({ listProduct }: ContactSectionProps) => {
 							</Row>
 
 							<SubmitButtonWrapper>
-								<SubmitButton type='submit'>
-									{/* <BsPaperAirplane className='me-2' /> */}
-									GỬI NGAY CHO CHÚNG TÔI
-									<ImgSend src={sendIcon} alt='send' />
+								<SubmitButton type='submit' disabled={isSubmitting}>
+									{isSubmitting ? 'ĐANG GỬI...' : 'GỬI NGAY CHO CHÚNG TÔI'}
+									{!isSubmitting && <ImgSend src={sendIcon} alt='send' />}
 								</SubmitButton>
 							</SubmitButtonWrapper>
 						</ContactForm>
 					</ContactContainer>
 				</Row>
 			</Container>
+			<ToastContainer
+				position='top-right'
+				autoClose={5000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick={false}
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme='light'
+				transition={Bounce}
+			/>
 		</SectionWrapper>
 	);
 };
@@ -234,6 +290,7 @@ const StyledTextArea = styled(Form.Control)`
 	background: #f5f5f5;
 	resize: vertical;
 	min-height: 120px;
+	color: #333;
 
 	&:focus {
 		border-color: #0966c5;
@@ -272,18 +329,25 @@ const SubmitButton = styled(Button)`
 	min-width: 250px;
 	justify-content: center;
 
-	&:hover {
+	&:hover:not(:disabled) {
 		background: #1565c0;
 		transform: translateY(-2px);
 		box-shadow: 0 8px 20px rgba(25, 118, 210, 0.3);
 	}
 
-	&:active {
+	&:active:not(:disabled) {
 		transform: translateY(0);
 	}
 
 	&:focus {
 		box-shadow: 0 0 0 0.2rem rgba(25, 118, 210, 0.3);
+	}
+
+	&:disabled {
+		background: #9e9e9e;
+		cursor: not-allowed;
+		transform: none;
+		box-shadow: none;
 	}
 
 	@media (max-width: 576px) {
