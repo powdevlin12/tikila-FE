@@ -12,6 +12,12 @@ import SectionIntro from './components/section-intro';
 import OutstandingProducts from './components/outstanding-products';
 import type { Product } from '../../interfaces/Product';
 import ContactSection from './components/contact-section';
+import BannerSection from './components/banner-section';
+
+// Constants for statistics
+const COUNT_CUSTOMER = 1000;
+const COUNT_CUSTOMER_SATISFY = 99;
+const COUNT_QUANLITY = 100;
 
 const Home = () => {
 	const { data: dataCompanyInfo, loading: loadingGetCompanyInfo } =
@@ -47,6 +53,12 @@ const Home = () => {
 				tiktokLink={dataCompanyContact?.tiktok_link ?? ''}
 			/>
 			<Navbar />
+			<BannerSection
+				banner={dataCompanyInfo?.BANNER ?? ''}
+				COUNT_CUSTOMER={COUNT_CUSTOMER}
+				COUNT_CUSTOMER_SATISFY={COUNT_CUSTOMER_SATISFY}
+				COUNT_QUANLITY={COUNT_QUANLITY}
+			/>
 			<SectionIntro
 				introContent={dataCompanyInfo?.intro_text ?? ''}
 				introImg={dataCompanyInfo?.img_intro ?? ''}

@@ -11,4 +11,8 @@ export interface CompanyInfo {
 	contact_id?: string;
 	img_intro?: string;
 	version_info?: string;
+	BANNER?: string;
+	COUNT_CUSTOMER?: number;
+	COUNT_CUSTOMER_SATISFY?: number;
+	COUNT_QUANLITY?: number;
 }
