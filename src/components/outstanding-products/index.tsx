@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import styled from 'styled-components';
 import ItemOutstandingProduct from './item-outstanding-product';
-import type { Product } from '../../../../interfaces/Product';
+import type { Product } from '../../interfaces/Product';
 
 type OutstandingProductsProps = {
 	listProduct: Product[];

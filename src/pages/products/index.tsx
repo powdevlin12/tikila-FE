@@ -9,7 +9,7 @@ import { RotateLoader } from 'react-spinners';
 import { COLORS } from '../../contants/colors';
 import Topbar from '../../components/topbar';
 import Navbar from '../../components/navbar';
-import OutstandingProducts from '../home/components/outstanding-products';
+import OutstandingProducts from '../../components/outstanding-products';
 
 const Products = () => {
 	const { data: dataCompanyInfo, loading: loadingGetCompanyInfo } =

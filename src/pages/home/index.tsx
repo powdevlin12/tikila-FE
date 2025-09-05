@@ -9,7 +9,7 @@ import { Container } from 'react-bootstrap';
 import type { CompanyContact } from '../../interfaces/CompanyContact';
 import Navbar from '../../components/navbar';
 import SectionIntro from './components/section-intro';
-import OutstandingProducts from './components/outstanding-products';
+import OutstandingProducts from '../../components/outstanding-products';
 import type { Product } from '../../interfaces/Product';
 import ContactSection from './components/contact-section';
 import BannerSection from './components/banner-section';
