@@ -1,8 +1,13 @@
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { BsTelephone } from 'react-icons/bs';
 import './styles.css';
+import { useLocation } from 'react-router-dom';
 
 const CustomNavbar = () => {
+	const location = useLocation();
+
+	console.log({ location });
+
 	return (
 		<Navbar bg='white' expand='lg' className='custom-navbar shadow-sm'>
 			<Container fluid className='container-navbar'>
@@ -21,16 +26,36 @@ const CustomNavbar = () => {
 				<Navbar.Collapse id='basic-navbar-nav'>
 					{/* Navigation Menu */}
 					<Nav className='me-auto navbar-nav-custom'>
-						<Nav.Link href='/' className='nav-link-custom active'>
+						<Nav.Link
+							href='/'
+							className={`nav-link-custom ${
+								location.pathname === '/' ? 'active' : ''
+							}`}
+						>
 							TRANG CHỦ
 						</Nav.Link>
-						<Nav.Link href='#' className='nav-link-custom'>
+						<Nav.Link
+							href='#'
+							className={`nav-link-custom ${
+								location.pathname === '/introduce' ? 'active' : ''
+							}`}
+						>
 							GIỚI THIỆU
 						</Nav.Link>
-						<Nav.Link href='/products' className='nav-link-custom'>
+						<Nav.Link
+							href='/products'
+							className={`nav-link-custom ${
+								location.pathname === '/products' ? 'active' : ''
+							}`}
+						>
 							SẢN PHẦM
 						</Nav.Link>
-						<Nav.Link href='#' className='nav-link-custom'>
+						<Nav.Link
+							href='#'
+							className={`nav-link-custom ${
+								location.pathname === '/services' ? 'active' : ''
+							}`}
+						>
 							DỊCH VỤ
 						</Nav.Link>
 					</Nav>
