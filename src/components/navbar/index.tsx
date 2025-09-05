@@ -21,13 +21,13 @@ const CustomNavbar = () => {
 				<Navbar.Collapse id='basic-navbar-nav'>
 					{/* Navigation Menu */}
 					<Nav className='me-auto navbar-nav-custom'>
-						<Nav.Link href='#' className='nav-link-custom active'>
+						<Nav.Link href='/' className='nav-link-custom active'>
 							TRANG CHỦ
 						</Nav.Link>
 						<Nav.Link href='#' className='nav-link-custom'>
 							GIỚI THIỆU
 						</Nav.Link>
-						<Nav.Link href='#' className='nav-link-custom'>
+						<Nav.Link href='/products' className='nav-link-custom'>
 							SẢN PHẦM
 						</Nav.Link>
 						<Nav.Link href='#' className='nav-link-custom'>

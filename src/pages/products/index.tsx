@@ -1,25 +1,17 @@
+import React from 'react';
 import styled from 'styled-components';
-import Topbar from '../../components/topbar';
-import type { CompanyInfo } from '../../interfaces/CompanyInfo';
 import { useApiWithQuery } from '../../services';
-import './home.styles.css';
+import type { CompanyInfo } from '../../interfaces/CompanyInfo';
+import type { CompanyContact } from '../../interfaces/CompanyContact';
+import type { Product } from '../../interfaces/Product';
+import { Container } from 'react-bootstrap';
 import { RotateLoader } from 'react-spinners';
 import { COLORS } from '../../contants/colors';
-import { Container } from 'react-bootstrap';
-import type { CompanyContact } from '../../interfaces/CompanyContact';
+import Topbar from '../../components/topbar';
 import Navbar from '../../components/navbar';
-import SectionIntro from './components/section-intro';
-import OutstandingProducts from './components/outstanding-products';
-import type { Product } from '../../interfaces/Product';
-import ContactSection from './components/contact-section';
-import BannerSection from './components/banner-section';
+import OutstandingProducts from '../home/components/outstanding-products';
 
-// Constants for statistics
-const COUNT_CUSTOMER = 1000;
-const COUNT_CUSTOMER_SATISFY = 99;
-const COUNT_QUANLITY = 100;
-
-const Home = () => {
+const Products = () => {
 	const { data: dataCompanyInfo, loading: loadingGetCompanyInfo } =
 		useApiWithQuery<CompanyInfo>('/company/info', {});
 
@@ -43,7 +35,6 @@ const Home = () => {
 			</Wrapper>
 		);
 	}
-
 	return (
 		<Wrapper>
 			<Topbar
@@ -53,21 +44,11 @@ const Home = () => {
 				tiktokLink={dataCompanyContact?.tiktok_link ?? ''}
 			/>
 			<Navbar />
-			<BannerSection
-				banner={dataCompanyInfo?.BANNER ?? ''}
-				COUNT_CUSTOMER={COUNT_CUSTOMER}
-				COUNT_CUSTOMER_SATISFY={COUNT_CUSTOMER_SATISFY}
-				COUNT_QUANLITY={COUNT_QUANLITY}
-			/>
-			<SectionIntro
-				introContent={dataCompanyInfo?.intro_text ?? ''}
-				introImg={dataCompanyInfo?.img_intro ?? ''}
-			/>
 			<OutstandingProducts
-				listProduct={dataProduct?.slice(0, 3) ?? []}
-				title='Dịch vụ nổi bật'
+				listProduct={dataProduct ?? []}
+				title='Tất cả dịch vụ'
+				isHiddenViewAll
 			/>
-			<ContactSection listProduct={dataProduct} />
 		</Wrapper>
 	);
 };
@@ -80,4 +61,4 @@ const Wrapper = styled.section`
 	margin: 0;
 `;
 
-export default Home;
+export default Products;

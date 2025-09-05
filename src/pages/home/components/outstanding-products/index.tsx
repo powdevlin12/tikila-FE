@@ -6,21 +6,33 @@ import type { Product } from '../../../../interfaces/Product';
 
 type OutstandingProductsProps = {
 	listProduct: Product[];
+	title: string;
+	isHiddenViewAll?: boolean;
 };
 
-const OutstandingProducts = ({ listProduct }: OutstandingProductsProps) => {
+const OutstandingProducts = ({
+	listProduct,
+	title,
+	isHiddenViewAll = false,
+}: OutstandingProductsProps) => {
 	return (
 		<SectionWrapper>
 			<Container fluid>
 				{/* Title */}
 				<TitleWrapper>
-					<SectionTitle>Dịch vụ nổi bật</SectionTitle>
+					<SectionTitle>{title}</SectionTitle>
 				</TitleWrapper>
 
 				{/* Products Grid */}
 				<Row>
 					{listProduct?.map(product => (
-						<Col lg={4} md={6} sm={12} key={product.id}>
+						<Col
+							lg={4}
+							md={6}
+							sm={12}
+							key={product.id}
+							className={!isHiddenViewAll ? '' : 'mb-5'}
+						>
 							<ItemOutstandingProduct
 								title={product?.title || ''}
 								description={product?.description || ''}
@@ -32,12 +44,14 @@ const OutstandingProducts = ({ listProduct }: OutstandingProductsProps) => {
 				</Row>
 
 				{/* View All Button */}
-				<ViewAllWrapper>
-					<ViewAllButton>
-						XEM TẤT CẢ
-						<ArrowIcon>→</ArrowIcon>
-					</ViewAllButton>
-				</ViewAllWrapper>
+				{!isHiddenViewAll && (
+					<ViewAllWrapper onClick={() => (window.location.href = '/products')}>
+						<ViewAllButton>
+							XEM TẤT CẢ
+							<ArrowIcon>→</ArrowIcon>
+						</ViewAllButton>
+					</ViewAllWrapper>
+				)}
 			</Container>
 		</SectionWrapper>
 	);

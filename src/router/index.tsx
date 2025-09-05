@@ -3,6 +3,7 @@ import Home from '../pages/home';
 import ContactPage from '../pages/contact';
 import DetailProduct from '../pages/detail-product';
 import Introduce from '../pages/introduce';
+import Products from '../pages/products';
 
 const router = createBrowserRouter([
 	{
@@ -12,6 +13,10 @@ const router = createBrowserRouter([
 	{
 		path: '/contact',
 		element: <ContactPage />,
+	},
+	{
+		path: '/products',
+		element: <Products />,
 	},
 	{
 		path: '/product/:id',
