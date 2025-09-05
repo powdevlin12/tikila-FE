@@ -13,6 +13,7 @@ import OutstandingProducts from '../../components/outstanding-products';
 import type { Product } from '../../interfaces/Product';
 import ContactSection from './components/contact-section';
 import BannerSection from './components/banner-section';
+import Footer from '../../components/footer';
 
 // Constants for statistics
 const COUNT_CUSTOMER = 1000;
@@ -68,6 +69,7 @@ const Home = () => {
 				title='Dịch vụ nổi bật'
 			/>
 			<ContactSection listProduct={dataProduct} />
+			<Footer />
 		</Wrapper>
 	);
 };
