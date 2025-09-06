@@ -14,6 +14,11 @@ const BannerSection = ({
 	COUNT_CUSTOMER_SATISFY,
 	COUNT_QUANLITY,
 }: BannerSectionProps) => {
+	console.log({
+		COUNT_CUSTOMER,
+		COUNT_CUSTOMER_SATISFY,
+		COUNT_QUANLITY,
+	});
 	return (
 		<BannerWrapper
 			banner={

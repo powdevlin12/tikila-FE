@@ -10,11 +10,6 @@ import ContactSection from './components/contact-section';
 import SectionIntro from './components/section-intro';
 import './home.styles.css';
 
-// Constants for statistics
-const COUNT_CUSTOMER = 1000;
-const COUNT_CUSTOMER_SATISFY = 99;
-const COUNT_QUANLITY = 100;
-
 const Home = () => {
 	const { data: dataCompanyInfo } = useApiWithQuery<CompanyInfo>(
 		'/company/info',
@@ -30,9 +25,9 @@ const Home = () => {
 			<Header loading={loadingGetProduct} />
 			<BannerSection
 				banner={dataCompanyInfo?.BANNER ?? ''}
-				COUNT_CUSTOMER={COUNT_CUSTOMER}
-				COUNT_CUSTOMER_SATISFY={COUNT_CUSTOMER_SATISFY}
-				COUNT_QUANLITY={COUNT_QUANLITY}
+				COUNT_CUSTOMER={dataCompanyInfo?.COUNT_CUSTOMER ?? 0}
+				COUNT_CUSTOMER_SATISFY={dataCompanyInfo?.COUNT_CUSTOMER_SATISFY ?? 0}
+				COUNT_QUANLITY={dataCompanyInfo?.COUNT_QUANLITY ?? 0}
 			/>
 			<SectionIntro
 				introContent={dataCompanyInfo?.intro_text ?? ''}
