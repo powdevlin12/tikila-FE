@@ -6,13 +6,11 @@ import { useLocation } from 'react-router-dom';
 const CustomNavbar = () => {
 	const location = useLocation();
 
-	console.log({ location });
-
 	return (
 		<Navbar bg='white' expand='lg' className='custom-navbar shadow-sm'>
 			<Container fluid className='container-navbar'>
 				{/* Logo */}
-				<Navbar.Brand href='#' className='navbar-brand-custom'>
+				<Navbar.Brand href='/' className='navbar-brand-custom'>
 					<img
 						src='/public/logo.png'
 						alt='TIKILA Logo'
@@ -35,7 +33,7 @@ const CustomNavbar = () => {
 							TRANG CHỦ
 						</Nav.Link>
 						<Nav.Link
-							href='#'
+							href='/introduce'
 							className={`nav-link-custom ${
 								location.pathname === '/introduce' ? 'active' : ''
 							}`}

@@ -1,19 +1,14 @@
 import styled from 'styled-components';
-import Topbar from '../../components/topbar';
-import type { CompanyInfo } from '../../interfaces/CompanyInfo';
-import { useApiWithQuery } from '../../services';
-import './home.styles.css';
-import { RotateLoader } from 'react-spinners';
-import { COLORS } from '../../contants/colors';
-import { Container } from 'react-bootstrap';
-import type { CompanyContact } from '../../interfaces/CompanyContact';
-import Navbar from '../../components/navbar';
-import SectionIntro from './components/section-intro';
-import OutstandingProducts from '../../components/outstanding-products';
-import type { Product } from '../../interfaces/Product';
-import ContactSection from './components/contact-section';
-import BannerSection from './components/banner-section';
 import Footer from '../../components/footer';
+import Header from '../../components/header';
+import OutstandingProducts from '../../components/outstanding-products';
+import type { CompanyInfo } from '../../interfaces/CompanyInfo';
+import type { Product } from '../../interfaces/Product';
+import { useApiWithQuery } from '../../services';
+import BannerSection from './components/banner-section';
+import ContactSection from './components/contact-section';
+import SectionIntro from './components/section-intro';
+import './home.styles.css';
 
 // Constants for statistics
 const COUNT_CUSTOMER = 1000;
@@ -21,39 +16,18 @@ const COUNT_CUSTOMER_SATISFY = 99;
 const COUNT_QUANLITY = 100;
 
 const Home = () => {
-	const { data: dataCompanyInfo, loading: loadingGetCompanyInfo } =
-		useApiWithQuery<CompanyInfo>('/company/info', {});
-
-	const { data: dataCompanyContact, loading: loadingGetCompanyContact } =
-		useApiWithQuery<CompanyContact>('/company/contact', {});
+	const { data: dataCompanyInfo } = useApiWithQuery<CompanyInfo>(
+		'/company/info',
+		{},
+	);
 
 	const { data: dataProduct, loading: loadingGetProduct } = useApiWithQuery<
 		Product[]
 	>('/products', {});
 
-	if (loadingGetCompanyInfo || loadingGetCompanyContact || loadingGetProduct) {
-		return (
-			<Wrapper>
-				<Container
-					fluid
-					className='d-flex justify-content-center align-items-center'
-					style={{ height: '100vh' }}
-				>
-					<RotateLoader color={COLORS.primary} />
-				</Container>
-			</Wrapper>
-		);
-	}
-
 	return (
 		<Wrapper>
-			<Topbar
-				content={dataCompanyInfo?.welcome_content ?? ''}
-				fbLink={dataCompanyContact?.facebook_link ?? ''}
-				ytLink={dataCompanyContact?.zalo_link ?? ''}
-				tiktokLink={dataCompanyContact?.tiktok_link ?? ''}
-			/>
-			<Navbar />
+			<Header loading={loadingGetProduct} />
 			<BannerSection
 				banner={dataCompanyInfo?.BANNER ?? ''}
 				COUNT_CUSTOMER={COUNT_CUSTOMER}
