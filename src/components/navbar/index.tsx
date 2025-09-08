@@ -3,7 +3,11 @@ import { BsTelephone } from 'react-icons/bs';
 import './styles.css';
 import { useLocation } from 'react-router-dom';
 
-const CustomNavbar = () => {
+type CustomNavbarProps = {
+	phone?: string;
+};
+
+const CustomNavbar = ({ phone }: CustomNavbarProps) => {
 	const location = useLocation();
 
 	return (
@@ -63,7 +67,7 @@ const CustomNavbar = () => {
 							<span className='hotline-label'>Hotline 24/7</span>
 							<div className='hotline-number'>
 								<BsTelephone className='me-1' />
-								0868937128
+								{phone}
 							</div>
 						</div>
 					</div>

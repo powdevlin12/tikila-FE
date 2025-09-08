@@ -29,7 +29,7 @@ const Header = ({ loading = false }: HeaderProps) => {
 				ytLink={dataCompanyContact?.zalo_link ?? ''}
 				tiktokLink={dataCompanyContact?.tiktok_link ?? ''}
 			/>
-			<CustomNavbar />
+			<CustomNavbar phone={dataCompanyContact?.phone ?? ''} />
 		</Container>
 	);
 };
