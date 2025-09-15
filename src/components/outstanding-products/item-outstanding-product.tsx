@@ -1,5 +1,5 @@
-import React from 'react';
 import { Card } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { MdPhoneInTalk } from 'react-icons/md';
 
@@ -8,6 +8,7 @@ type ItemOutstandingProductProps = {
 	description: string;
 	image: string;
 	buttonText: string;
+	productId?: number;
 };
 
 const ItemOutstandingProduct = ({
@@ -15,9 +16,25 @@ const ItemOutstandingProduct = ({
 	description,
 	image,
 	buttonText,
+	productId,
 }: ItemOutstandingProductProps) => {
+	const navigate = useNavigate();
+
+	const handleCardClick = () => {
+		if (productId) {
+			navigate(`/product/${productId}`);
+		}
+	};
+
+	const handleButtonClick = (e: React.MouseEvent) => {
+		e.stopPropagation(); // Ngăn sự kiện click của card
+		if (productId) {
+			navigate(`/product/${productId}`);
+		}
+	};
+
 	return (
-		<ProductCard>
+		<ProductCard onClick={handleCardClick} clickable={!!productId}>
 			<ImageWrapper>
 				<ProductImage src={image} alt={title} />
 			</ImageWrapper>
@@ -26,7 +43,7 @@ const ItemOutstandingProduct = ({
 				<ProductTitle>{title}</ProductTitle>
 				<ProductDescription>{description}</ProductDescription>
 
-				<ActionButton>
+				<ActionButton onClick={handleButtonClick}>
 					<MdPhoneInTalk className='me-2' style={{ fontSize: '1.2rem' }} />
 					{buttonText}
 				</ActionButton>
@@ -36,7 +53,7 @@ const ItemOutstandingProduct = ({
 };
 
 // Styled Components
-const ProductCard = styled(Card)`
+const ProductCard = styled(Card)<{ clickable?: boolean }>`
 	border: none;
 	border-radius: 10px;
 	overflow: hidden;
@@ -44,6 +61,7 @@ const ProductCard = styled(Card)`
 	transition: all 0.3s ease;
 	height: 100%;
 	background: white;
+	cursor: ${props => (props.clickable ? 'pointer' : 'default')};
 
 	&:hover {
 		transform: translateY(-8px);

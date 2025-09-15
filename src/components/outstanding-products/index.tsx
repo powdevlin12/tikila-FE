@@ -1,4 +1,3 @@
-import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import styled from 'styled-components';
 import ItemOutstandingProduct from './item-outstanding-product';
@@ -37,7 +36,8 @@ const OutstandingProducts = ({
 								title={product?.title || ''}
 								description={product?.description || ''}
 								image={product?.image_url || ''}
-								buttonText={'LIÊN HỆ NGAY'}
+								buttonText={'XEM CHI TIẾT'}
+								productId={product?.id}
 							/>
 						</Col>
 					)) ?? []}
