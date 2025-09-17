@@ -9,6 +9,7 @@ import BannerSection from './components/banner-section';
 import ContactSection from './components/contact-section';
 import SectionIntro from './components/section-intro';
 import './home.styles.css';
+import StartCustomerSection from './components/start-customer-section';
 
 const Home = () => {
 	const { data: dataCompanyInfo } = useApiWithQuery<CompanyInfo>(
@@ -37,6 +38,7 @@ const Home = () => {
 				listProduct={dataProduct?.slice(0, 3) ?? []}
 				title='Dịch vụ nổi bật'
 			/>
+			<StartCustomerSection />
 			<ContactSection listProduct={dataProduct} />
 			<Footer />
 		</Wrapper>
