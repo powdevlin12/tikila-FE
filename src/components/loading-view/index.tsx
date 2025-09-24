@@ -1,4 +1,3 @@
-import React from 'react';
 import { Container } from 'react-bootstrap';
 import { RotateLoader } from 'react-spinners';
 import styled from 'styled-components';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Col } from 'react-bootstrap';
 import styled from 'styled-components';
 import type { FooterLink } from '../../interfaces/Footer';
