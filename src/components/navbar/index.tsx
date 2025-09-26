@@ -5,9 +5,10 @@ import { useLocation } from 'react-router-dom';
 
 type CustomNavbarProps = {
 	phone?: string;
+	logo?: string;
 };
 
-const CustomNavbar = ({ phone }: CustomNavbarProps) => {
+const CustomNavbar = ({ phone, logo }: CustomNavbarProps) => {
 	const location = useLocation();
 
 	return (
@@ -16,7 +17,7 @@ const CustomNavbar = ({ phone }: CustomNavbarProps) => {
 				{/* Logo */}
 				<Navbar.Brand href='/' className='navbar-brand-custom'>
 					<img
-						src='/public/logo.png'
+						src={logo}
 						alt='TIKILA Logo'
 						width='60'
 						height='60'
