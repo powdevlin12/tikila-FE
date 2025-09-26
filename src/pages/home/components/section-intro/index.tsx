@@ -1,4 +1,5 @@
-import { Container, Row, Col } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 type SectionIntroProps = {
@@ -7,6 +8,7 @@ type SectionIntroProps = {
 };
 
 const SectionIntro = ({ introContent, introImg }: SectionIntroProps) => {
+	const navigate = useNavigate();
 	return (
 		<SectionWrapper>
 			<Container fluid>
@@ -20,7 +22,7 @@ const SectionIntro = ({ introContent, introImg }: SectionIntroProps) => {
 
 							<ContentText>{introContent || `Công ty TIKILA`}</ContentText>
 
-							<ActionButton>
+							<ActionButton onClick={() => navigate('/introduce')}>
 								XEM THÊM
 								<ArrowIcon>→</ArrowIcon>
 							</ActionButton>

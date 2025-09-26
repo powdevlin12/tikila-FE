@@ -8,7 +8,7 @@ import type { StarCustomer } from '../interfaces/StarCustomer';
 // Styled components
 const StyledSection = styled.section`
 	padding: 80px 0;
-	background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+	background: #8bafe973;
 	position: relative;
 	overflow: hidden;
 

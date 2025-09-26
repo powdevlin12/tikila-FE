@@ -7,8 +7,8 @@ import { Container } from 'react-bootstrap';
 import { RotateLoader } from 'react-spinners';
 import { COLORS } from '../../contants/colors';
 import Topbar from '../../components/topbar';
-import Navbar from '../../components/navbar';
 import OutstandingProducts from '../../components/outstanding-products';
+import CustomNavbar from '../../components/navbar';
 
 const Products = () => {
 	const { data: dataCompanyInfo, loading: loadingGetCompanyInfo } =
@@ -42,7 +42,10 @@ const Products = () => {
 				ytLink={dataCompanyContact?.zalo_link ?? ''}
 				tiktokLink={dataCompanyContact?.tiktok_link ?? ''}
 			/>
-			<Navbar />
+			<CustomNavbar
+				phone={dataCompanyContact?.phone ?? ''}
+				logo={dataCompanyInfo.logo_url ?? ''}
+			/>
 			<OutstandingProducts
 				listProduct={dataProduct ?? []}
 				title='Tất cả dịch vụ'

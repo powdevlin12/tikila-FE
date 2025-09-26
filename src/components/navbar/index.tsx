@@ -1,7 +1,7 @@
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { BsTelephone } from 'react-icons/bs';
 import './styles.css';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 type CustomNavbarProps = {
 	phone?: string;
@@ -10,12 +10,16 @@ type CustomNavbarProps = {
 
 const CustomNavbar = ({ phone, logo }: CustomNavbarProps) => {
 	const location = useLocation();
+	const navigate = useNavigate();
 
 	return (
 		<Navbar bg='white' expand='lg' className='custom-navbar shadow-sm'>
 			<Container fluid className='container-navbar'>
 				{/* Logo */}
-				<Navbar.Brand href='/' className='navbar-brand-custom'>
+				<Navbar.Brand
+					className='navbar-brand-custom'
+					onClick={() => navigate('/')}
+				>
 					<img
 						src={logo}
 						alt='TIKILA Logo'
@@ -30,15 +34,15 @@ const CustomNavbar = ({ phone, logo }: CustomNavbarProps) => {
 					{/* Navigation Menu */}
 					<Nav className='me-auto navbar-nav-custom'>
 						<Nav.Link
-							href='/'
 							className={`nav-link-custom ${
 								location.pathname === '/' ? 'active' : ''
 							}`}
+							onClick={() => navigate('/')}
 						>
 							TRANG CHỦ
 						</Nav.Link>
 						<Nav.Link
-							href='/introduce'
+							onClick={() => navigate('/introduce')}
 							className={`nav-link-custom ${
 								location.pathname === '/introduce' ? 'active' : ''
 							}`}
@@ -46,7 +50,7 @@ const CustomNavbar = ({ phone, logo }: CustomNavbarProps) => {
 							GIỚI THIỆU
 						</Nav.Link>
 						<Nav.Link
-							href='/products'
+							onClick={() => navigate('/products')}
 							className={`nav-link-custom ${
 								location.pathname === '/products' ? 'active' : ''
 							}`}
@@ -54,12 +58,12 @@ const CustomNavbar = ({ phone, logo }: CustomNavbarProps) => {
 							SẢN PHẦM
 						</Nav.Link>
 						<Nav.Link
-							href='#'
-							className={`nav-link-custom ${
-								location.pathname === '/services' ? 'active' : ''
-							}`}
+							onClick={() =>
+								window.open('https://www.tikila.com.vn/', '_blank')
+							}
+							className={`nav-link-custom`}
 						>
-							DỊCH VỤ
+							QUẢN LÝ DỊCH VỤ
 						</Nav.Link>
 					</Nav>
 					{/* Hotline */}

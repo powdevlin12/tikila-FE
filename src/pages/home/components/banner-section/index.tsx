@@ -19,12 +19,7 @@ const BannerSection = ({
 		COUNT_QUANLITY,
 	});
 	return (
-		<BannerWrapper
-			banner={
-				banner ||
-				'https://images.samsung.com/is/image/samsung/p6pim/vn/ww90cg544daxsv/gallery/vn-front-loading-washer-ww90cg544daxsv-533661619?$2052_1641_PNG$'
-			}
-		>
+		<BannerWrapper banner={banner}>
 			<Overlay />
 			<StatsWrapper>
 				<Container>
