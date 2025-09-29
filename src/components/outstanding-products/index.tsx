@@ -104,7 +104,7 @@ const TitleWrapper = styled.div<{ $isMobile?: boolean }>`
 `;
 
 const SectionTitle = styled.h2<{ $isMobile?: boolean }>`
-	font-size: ${props => (props.$isMobile ? '1.6rem !important' : '2.5rem')};
+	font-size: ${props => (props.$isMobile ? '1.6rem !important' : '2.3rem')};
 	font-weight: 700;
 	color: #0966c5;
 	margin: 0rem 0 !important;

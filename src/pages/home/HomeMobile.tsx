@@ -43,10 +43,10 @@ const HomeMobile = ({ companyInfo, products, loadingProducts }: Props) => {
 					title='Dịch vụ nổi bật'
 				/>
 			</SectionCompact>
-			{/* <Section>
+			<Section>
 				<StartCustomerSection />
 			</Section>
-			<Section>
+			{/* <Section>
 				<ContactSection listProduct={products ?? []} />
 			</Section>
 			<FooterSection>
@@ -122,17 +122,17 @@ const HeaderBar = styled.div`
 // Normal content section
 const Section = styled.div`
 	${commonSection};
-	padding-top: ${space.lg};
-	padding-bottom: ${space.lg};
-	&:not(:first-of-type) {
+	/* padding-top: ${space.lg};
+	padding-bottom: ${space.lg}; */
+	/* &:not(:first-of-type) {
 		margin-top: ${space.sm};
-	}
+	} */
 `;
 
 // More compact vertical spacing
 const SectionCompact = styled(Section)`
 	padding-top: ${space.md};
-	padding-bottom: ${space.lg};
+	/* padding-bottom: ${space.lg}; */
 `;
 
 // Full-bleed (for banner / hero) while respecting safe areas horizontally

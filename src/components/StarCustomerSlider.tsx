@@ -4,10 +4,13 @@ import styled from 'styled-components';
 import { FaStar, FaQuoteLeft } from 'react-icons/fa';
 import { useApi } from '../services';
 import type { StarCustomer } from '../interfaces/StarCustomer';
+import { useMediaQuery } from '../hooks';
+import { MOBILE_MAX_WIDTH } from '../contants/size';
 
 // Styled components
-const StyledSection = styled.section`
-	padding: 80px 0;
+const StyledSection = styled.section<{ $isMobile?: boolean }>`
+	padding: ${props => (props.$isMobile ? '3rem 0' : '80px 0')};
+	padding-top: ${props => (props.$isMobile ? '1rem' : '2rem')};
 	background: #8bafe973;
 	position: relative;
 	overflow: hidden;
@@ -25,20 +28,20 @@ const StyledSection = styled.section`
 	}
 `;
 
-const Container = styled.div`
+const Container = styled.div<{ $isMobile?: boolean }>`
 	max-width: 1200px;
 	margin: 0 auto;
-	padding: 0 20px;
+	padding: ${props => (props.$isMobile ? '0 10px' : '0 20px')};
 	position: relative;
 	z-index: 1;
 `;
 
-const SectionTitle = styled.h2`
+const SectionTitle = styled.h2<{ $isMobile?: boolean }>`
 	text-align: center;
-	font-size: 2.5rem;
+	font-size: ${props => (props.$isMobile ? '1.6rem !important' : '2.3rem')};
 	font-weight: 700;
 	color: #2c3e50;
-	margin-bottom: 20px;
+	margin-bottom: ${props => (props.$isMobile ? '1.5rem !important' : '20px')};
 	position: relative;
 
 	&::after {
@@ -47,29 +50,22 @@ const SectionTitle = styled.h2`
 		bottom: -10px;
 		left: 50%;
 		transform: translateX(-50%);
-		width: 80px;
+		width: ${props => (props.$isMobile ? '60px' : '80px')};
 		height: 4px;
 		background: linear-gradient(45deg, #3498db, #2ecc71);
 		border-radius: 2px;
 	}
-
-	@media (max-width: 768px) {
-		font-size: 2rem;
-	}
-
-	@media (max-width: 576px) {
-		font-size: 1.8rem;
-	}
 `;
 
-const SectionSubtitle = styled.p`
+const SectionSubtitle = styled.p<{ $isMobile?: boolean }>`
 	text-align: center;
-	font-size: 1.2rem;
+	font-size: ${props => (props.$isMobile ? '1rem' : '1.2rem')};
 	color: #7f8c8d;
-	margin-bottom: 50px;
+	margin-bottom: ${props => (props.$isMobile ? '30px' : '50px')};
 	max-width: 600px;
 	margin-left: auto;
 	margin-right: auto;
+	padding: ${props => (props.$isMobile ? '0 15px' : '0')};
 
 	@media (max-width: 768px) {
 		font-size: 1.1rem;
@@ -86,8 +82,8 @@ const SectionSubtitle = styled.p`
 const StyledCarousel = styled(Carousel)`
 	.carousel-control-prev,
 	.carousel-control-next {
-		width: 50px;
-		height: 50px;
+		width: 40px;
+		height: 40px;
 		background: rgba(52, 152, 219, 0.8);
 		border-radius: 50%;
 		top: 50%;
@@ -104,13 +100,6 @@ const StyledCarousel = styled(Carousel)`
 
 		&:focus {
 			box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
-		}
-
-		@media (max-width: 768px) {
-			width: 40px;
-			height: 40px;
-			left: 10px !important;
-			right: 10px !important;
 		}
 	}
 
@@ -169,17 +158,18 @@ const StyledCarousel = styled(Carousel)`
 	}
 `;
 
-const ReviewCard = styled(Card)`
+const ReviewCard = styled(Card)<{ $isMobile?: boolean }>`
 	border: none;
 	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 	border-radius: 20px;
 	overflow: hidden;
 	transition: all 0.3s ease;
 	background: white;
-	margin: 0 15px;
-	height: 280px;
+	margin: ${props => (props.$isMobile ? '0 10px' : '0 15px')};
+	height: ${props => (props.$isMobile ? '280px' : '320px')};
 	display: flex;
 	flex-direction: column;
+	width: ${props => (props.$isMobile ? 'calc(100% - 20px)' : 'auto')};
 
 	&:hover {
 		transform: translateY(-5px);
@@ -188,17 +178,19 @@ const ReviewCard = styled(Card)`
 
 	@media (max-width: 768px) {
 		margin: 0 10px;
-		height: 260px;
+		height: 280px;
+		width: calc(100% - 20px);
 	}
 
 	@media (max-width: 576px) {
-		margin: 0 5px;
-		height: 240px;
+		margin: 0 10px;
+		height: 260px;
+		width: calc(100% - 20px);
 	}
 `;
 
-const CardHeader = styled.div`
-	padding: 30px 25px 0;
+const CardHeader = styled.div<{ $isMobile?: boolean }>`
+	padding: ${props => (props.$isMobile ? '20px 15px 0' : '30px 25px 0')};
 	text-align: center;
 	position: relative;
 `;
@@ -237,12 +229,12 @@ const ReviewContent = styled.p`
 	}
 `;
 
-const CardFooter = styled.div`
-	padding: 0 25px 25px;
+const CardFooter = styled.div<{ $isMobile?: boolean }>`
+	padding: ${props => (props.$isMobile ? '0 15px 15px' : '0 25px 25px')};
 	text-align: center;
 	border-top: 1px solid #ecf0f1;
 	margin-top: auto;
-	padding-top: 20px;
+	padding-top: ${props => (props.$isMobile ? '15px' : '20px')};
 
 	@media (max-width: 768px) {
 		padding: 0 20px 20px;
@@ -338,14 +330,13 @@ const StarCustomerSlider: React.FC<StarCustomerSliderProps> = ({
 	const [currentItemsPerSlide, setCurrentItemsPerSlide] =
 		useState(itemsPerSlide);
 
+	const isMobile = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH}px)`);
+
 	// Responsive breakpoints
 	useEffect(() => {
 		const handleResize = () => {
-			const width = window.innerWidth;
-			if (width < 768) {
+			if (isMobile) {
 				setCurrentItemsPerSlide(1); // Mobile: 1 item per slide
-			} else if (width < 992) {
-				setCurrentItemsPerSlide(2); // Tablet: 2 items per slide
 			} else {
 				setCurrentItemsPerSlide(itemsPerSlide); // Desktop: original value
 			}
@@ -355,7 +346,7 @@ const StarCustomerSlider: React.FC<StarCustomerSliderProps> = ({
 		window.addEventListener('resize', handleResize);
 
 		return () => window.removeEventListener('resize', handleResize);
-	}, [itemsPerSlide]);
+	}, [itemsPerSlide, isMobile]);
 
 	// Format date
 	const formatDate = (dateString: string) => {
@@ -390,10 +381,12 @@ const StarCustomerSlider: React.FC<StarCustomerSliderProps> = ({
 
 	if (loading) {
 		return (
-			<StyledSection>
-				<Container>
-					<SectionTitle>Đánh giá từ khách hàng</SectionTitle>
-					<SectionSubtitle>
+			<StyledSection $isMobile={isMobile}>
+				<Container $isMobile={isMobile}>
+					<SectionTitle $isMobile={isMobile}>
+						Đánh giá từ khách hàng
+					</SectionTitle>
+					<SectionSubtitle $isMobile={isMobile}>
 						Những phản hồi chân thực từ khách hàng của chúng tôi
 					</SectionSubtitle>
 					<LoadingContainer>
@@ -406,9 +399,11 @@ const StarCustomerSlider: React.FC<StarCustomerSliderProps> = ({
 
 	if (error) {
 		return (
-			<StyledSection>
-				<Container>
-					<SectionTitle>Đánh giá từ khách hàng</SectionTitle>
+			<StyledSection $isMobile={isMobile}>
+				<Container $isMobile={isMobile}>
+					<SectionTitle $isMobile={isMobile}>
+						Đánh giá từ khách hàng
+					</SectionTitle>
 					<ErrorContainer>
 						<h4>Không thể tải đánh giá</h4>
 						<p>Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.</p>
@@ -420,10 +415,12 @@ const StarCustomerSlider: React.FC<StarCustomerSliderProps> = ({
 
 	if (!starCustomers || starCustomers.length === 0) {
 		return (
-			<StyledSection>
-				<Container>
-					<SectionTitle>Đánh giá từ khách hàng</SectionTitle>
-					<SectionSubtitle>
+			<StyledSection $isMobile={isMobile}>
+				<Container $isMobile={isMobile}>
+					<SectionTitle $isMobile={isMobile}>
+						Đánh giá từ khách hàng
+					</SectionTitle>
+					<SectionSubtitle $isMobile={isMobile}>
 						Những phản hồi chân thực từ khách hàng của chúng tôi
 					</SectionSubtitle>
 					<NoDataContainer>
@@ -438,19 +435,20 @@ const StarCustomerSlider: React.FC<StarCustomerSliderProps> = ({
 	const reviewChunks = chunkArray(starCustomers, currentItemsPerSlide);
 
 	return (
-		<StyledSection>
-			<Container>
-				<SectionTitle>Đánh giá từ khách hàng</SectionTitle>
-				<SectionSubtitle>
+		<StyledSection $isMobile={isMobile}>
+			<Container $isMobile={isMobile}>
+				<SectionTitle $isMobile={isMobile}>Đánh giá từ khách hàng</SectionTitle>
+				<SectionSubtitle $isMobile={isMobile}>
 					Những phản hồi chân thực từ khách hàng đã sử dụng dịch vụ của chúng
 					tôi
 				</SectionSubtitle>
 
 				<StyledCarousel
-					interval={5000}
+					interval={2500}
 					indicators={reviewChunks.length > 1}
 					controls={reviewChunks.length > 1}
 					pause='hover'
+					touch={isMobile}
 				>
 					{reviewChunks.map((chunk, chunkIndex) => (
 						<Carousel.Item key={chunkIndex}>
@@ -458,21 +456,21 @@ const StarCustomerSlider: React.FC<StarCustomerSliderProps> = ({
 								{chunk.map(review => (
 									<Col
 										key={review.id}
-										xl={4}
-										lg={currentItemsPerSlide === 2 ? 6 : 4}
-										md={currentItemsPerSlide === 1 ? 12 : 6}
+										xl={isMobile ? 12 : 4}
+										lg={isMobile ? 12 : currentItemsPerSlide === 2 ? 6 : 4}
+										md={isMobile ? 12 : currentItemsPerSlide === 1 ? 12 : 6}
 										sm={12}
 										className='mb-4'
 									>
-										<ReviewCard>
-											<CardHeader>
+										<ReviewCard $isMobile={isMobile}>
+											<CardHeader $isMobile={isMobile}>
 												<QuoteIcon />
 												<ReviewContent>
 													{review.content ||
 														'Khách hàng đã để lại đánh giá tích cực về dịch vụ của chúng tôi.'}
 												</ReviewContent>
 											</CardHeader>
-											<CardFooter>
+											<CardFooter $isMobile={isMobile}>
 												<CustomerName>{review.name_customer}</CustomerName>
 												<ReviewDate>{formatDate(review.created_at)}</ReviewDate>
 												{renderStars(review.star)}
