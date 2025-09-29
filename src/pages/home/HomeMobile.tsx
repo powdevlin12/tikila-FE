@@ -1,13 +1,11 @@
 import styled, { css } from 'styled-components';
 import Header from '../../components/header';
-import BannerSection from './components/banner-section';
-import SectionIntro from './components/section-intro';
 import OutstandingProducts from '../../components/outstanding-products';
-import StartCustomerSection from './components/start-customer-section';
-import ContactSection from './components/contact-section';
-import Footer from '../../components/footer';
 import type { CompanyInfo } from '../../interfaces/CompanyInfo';
 import type { Product } from '../../interfaces/Product';
+import BannerSection from './components/banner-section';
+import SectionIntro from './components/section-intro';
+import StartCustomerSection from './components/start-customer-section';
 
 interface Props {
 	companyInfo?: CompanyInfo;
@@ -150,12 +148,12 @@ const SectionFull = styled.div<{ bleed?: boolean }>`
 		`}
 `;
 
-const FooterSection = styled.footer`
-	${commonSection};
-	padding-top: ${space.lg};
-	padding-bottom: calc(${space.xl} + env(safe-area-inset-bottom));
-	margin-top: ${space.lg};
-	border-top: 1px solid #ececec;
-`;
+// const FooterSection = styled.footer`
+// 	${commonSection};
+// 	padding-top: ${space.lg};
+// 	padding-bottom: calc(${space.xl} + env(safe-area-inset-bottom));
+// 	margin-top: ${space.lg};
+// 	border-top: 1px solid #ececec;
+// `;
 
 export default HomeMobile;
