@@ -1,6 +1,8 @@
 import { Col, Container, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useMediaQuery } from '../../../../hooks';
+import { MOBILE_MAX_WIDTH } from '../../../../contants/size';
 
 type SectionIntroProps = {
 	introContent: string;
@@ -9,32 +11,71 @@ type SectionIntroProps = {
 
 const SectionIntro = ({ introContent, introImg }: SectionIntroProps) => {
 	const navigate = useNavigate();
+	const isMobile = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH}px)`);
+
 	return (
-		<SectionWrapper>
+		<SectionWrapper $isMobile={isMobile}>
 			<Container fluid>
 				<Row className='align-items-center'>
-					{/* Left Column - Content */}
-					<Col lg={6} md={12} className='mb-4 mb-lg-0'>
-						<ContentWrapper>
-							<BadgeWrapper>VỀ CHÚNG TÔI</BadgeWrapper>
+					{/* Mobile: Image first, Desktop: Content first */}
+					{isMobile ? (
+						<>
+							{/* Image Column - Mobile First */}
+							<Col xs={12} className='mb-3'>
+								<ImageWrapper $isMobile={isMobile}>
+									<MainImage src={introImg || ''} alt='Công ty Tikila' />
+								</ImageWrapper>
+							</Col>
+							{/* Content Column - Mobile Second */}
+							<Col xs={12}>
+								<ContentWrapper $isMobile={isMobile}>
+									{!isMobile && <BadgeWrapper>VỀ CHÚNG TÔI</BadgeWrapper>}
 
-							<CompanyTitle>Công ty TIKILA</CompanyTitle>
+									<CompanyTitle $isMobile={isMobile}>
+										Công ty TIKILA
+									</CompanyTitle>
 
-							<ContentText>{introContent || `Công ty TIKILA`}</ContentText>
+									<ContentText $isMobile={isMobile}>
+										{introContent || `Công ty TIKILA`}
+									</ContentText>
 
-							<ActionButton onClick={() => navigate('/introduce')}>
-								XEM THÊM
-								<ArrowIcon>→</ArrowIcon>
-							</ActionButton>
-						</ContentWrapper>
-					</Col>
+									<ActionButton onClick={() => navigate('/introduce')}>
+										XEM THÊM
+										<ArrowIcon>→</ArrowIcon>
+									</ActionButton>
+								</ContentWrapper>
+							</Col>
+						</>
+					) : (
+						<>
+							{/* Left Column - Content */}
+							<Col lg={6} md={12} className='mb-4 mb-lg-0'>
+								<ContentWrapper $isMobile={isMobile}>
+									<BadgeWrapper>VỀ CHÚNG TÔI</BadgeWrapper>
 
-					{/* Right Column - Image */}
-					<Col lg={6} md={12}>
-						<ImageWrapper>
-							<MainImage src={introImg || ''} alt='Công ty Tikila' />
-						</ImageWrapper>
-					</Col>
+									<CompanyTitle $isMobile={isMobile}>
+										Công ty TIKILA
+									</CompanyTitle>
+
+									<ContentText $isMobile={isMobile}>
+										{introContent || `Công ty TIKILA`}
+									</ContentText>
+
+									<ActionButton onClick={() => navigate('/introduce')}>
+										XEM THÊM
+										<ArrowIcon>→</ArrowIcon>
+									</ActionButton>
+								</ContentWrapper>
+							</Col>
+
+							{/* Right Column - Image */}
+							<Col lg={6} md={12}>
+								<ImageWrapper $isMobile={isMobile}>
+									<MainImage src={introImg || ''} alt='Công ty Tikila' />
+								</ImageWrapper>
+							</Col>
+						</>
+					)}
 				</Row>
 			</Container>
 		</SectionWrapper>
@@ -42,15 +83,16 @@ const SectionIntro = ({ introContent, introImg }: SectionIntroProps) => {
 };
 
 // Styled Components
-const SectionWrapper = styled.section`
+const SectionWrapper = styled.section<{ $isMobile?: boolean }>`
 	background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-	padding: 4rem 10rem;
+	padding: ${props => (props.$isMobile ? '3rem 0.25em' : '4rem 10rem')};
 	position: relative;
 	overflow: hidden;
 `;
 
-const ContentWrapper = styled.div`
-	padding-right: 2rem;
+const ContentWrapper = styled.div<{ $isMobile?: boolean }>`
+	padding-right: ${props => (props.$isMobile ? '0' : '2rem')};
+	text-align: ${props => (props.$isMobile ? 'center' : 'left')};
 
 	@media (max-width: 991px) {
 		padding-right: 0;
@@ -71,11 +113,11 @@ const BadgeWrapper = styled.div`
 	text-transform: uppercase;
 `;
 
-const CompanyTitle = styled.h1`
-	font-size: 2.5rem;
+const CompanyTitle = styled.h1<{ $isMobile?: boolean }>`
+	font-size: ${props => (props.$isMobile ? '1.8rem' : '2.5rem')};
 	font-weight: 700;
 	color: #191c1f;
-	margin-bottom: 2rem;
+	margin-bottom: ${props => (props.$isMobile ? '1rem' : '2rem')};
 	line-height: 1.2;
 
 	@media (max-width: 768px) {
@@ -87,12 +129,12 @@ const CompanyTitle = styled.h1`
 	}
 `;
 
-const ContentText = styled.p`
+const ContentText = styled.p<{ $isMobile?: boolean }>`
 	font-size: 1.1rem;
 	line-height: 1.8;
 	color: #475156;
-	margin-bottom: 2.5rem;
-	text-align: justify;
+	margin-bottom: ${props => (props.$isMobile ? '1.5rem' : '2.5rem')};
+	text-align: ${props => (props.$isMobile ? 'center' : 'justify')};
 
 	@media (max-width: 991px) {
 		text-align: left;
@@ -140,17 +182,14 @@ const ArrowIcon = styled.span`
 	}
 `;
 
-const ImageWrapper = styled.div`
+const ImageWrapper = styled.div<{ $isMobile?: boolean }>`
 	position: relative;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 500px;
-
-	@media (max-width: 991px) {
-		height: 400px;
-		margin-top: 3rem;
-	}
+	height: ${props => (props.$isMobile ? '250px' : '500px')};
+	margin-top: ${props => (props.$isMobile ? '1rem' : '0')};
+	margin-bottom: ${props => (props.$isMobile ? '1rem' : '0')};
 `;
 
 const MainImage = styled.img`
