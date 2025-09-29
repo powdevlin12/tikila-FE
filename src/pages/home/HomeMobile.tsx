@@ -6,6 +6,7 @@ import type { Product } from '../../interfaces/Product';
 import BannerSection from './components/banner-section';
 import SectionIntro from './components/section-intro';
 import StartCustomerSection from './components/start-customer-section';
+import ContactSection from './components/contact-section';
 
 interface Props {
 	companyInfo?: CompanyInfo;
@@ -44,10 +45,10 @@ const HomeMobile = ({ companyInfo, products, loadingProducts }: Props) => {
 			<Section>
 				<StartCustomerSection />
 			</Section>
-			{/* <Section>
+			<Section>
 				<ContactSection listProduct={products ?? []} />
 			</Section>
-			<FooterSection>
+			{/* <FooterSection>
 				<Footer />
 			</FooterSection> */}
 		</Wrapper>
