@@ -44,7 +44,7 @@ const Products = () => {
 			/>
 			<CustomNavbar
 				phone={dataCompanyContact?.phone ?? ''}
-				logo={dataCompanyInfo.logo_url ?? ''}
+				logo={dataCompanyInfo?.logo_url ?? ''}
 			/>
 			<OutstandingProducts
 				listProduct={dataProduct ?? []}

@@ -4,8 +4,7 @@ import { useApiWithQuery } from '../../services';
 import HomeDesktop from './HomeDesktop';
 import HomeMobile from './HomeMobile';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
-
-const MOBILE_MAX_WIDTH = 479; // <480px
+import { MOBILE_MAX_WIDTH } from '../../contants/size';
 
 const Home = () => {
 	const { data: dataCompanyInfo } = useApiWithQuery<CompanyInfo>(

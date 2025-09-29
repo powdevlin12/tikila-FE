@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { SocialIcon } from 'react-social-icons';
 import facebookIcon from '../../assets/facebook.png';
 import youtubeIcon from '../../assets/youtube.png';
+import { useMediaQuery } from '../../hooks';
+import { MOBILE_MAX_WIDTH } from '../../contants/size';
 
 type TopbarProps = {
 	content: string;
@@ -12,8 +14,10 @@ type TopbarProps = {
 };
 
 const Topbar = ({ content, fbLink, ytLink, tiktokLink }: TopbarProps) => {
+	const isMobile = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH}px)`);
+
 	return (
-		<Wrapper>
+		<Wrapper $isMobile={isMobile}>
 			<Container fluid>
 				<Row className='align-items-center'>
 					<Col xs={6} className='text-start'>
@@ -42,8 +46,8 @@ const Topbar = ({ content, fbLink, ytLink, tiktokLink }: TopbarProps) => {
 	);
 };
 
-const Wrapper = styled.section`
-	padding: 1em 10em;
+const Wrapper = styled.section<{ $isMobile?: boolean }>`
+	padding: ${props => (props.$isMobile ? '1rem 2rem' : '1em 10em')};
 	background: #0966c5;
 	width: 100%;
 	box-sizing: border-box;

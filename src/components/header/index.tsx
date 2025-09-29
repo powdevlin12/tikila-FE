@@ -31,7 +31,7 @@ const Header = ({ loading = false }: HeaderProps) => {
 			/>
 			<CustomNavbar
 				phone={dataCompanyContact?.phone ?? ''}
-				logo={dataCompanyInfo.logo_url ?? ''}
+				logo={dataCompanyInfo?.logo_url ?? ''}
 			/>
 		</Container>
 	);
