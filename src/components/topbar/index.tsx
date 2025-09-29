@@ -45,7 +45,7 @@ const Topbar = ({ content, fbLink, ytLink, tiktokLink }: TopbarProps) => {
 const Wrapper = styled.section`
 	padding: 1em 10em;
 	background: #0966c5;
-	width: 100vw;
+	width: 100%;
 	box-sizing: border-box;
 	margin: 0;
 

@@ -22,7 +22,7 @@ const Header = ({ loading = false }: HeaderProps) => {
 	}
 
 	return (
-		<Container style={{ width: '100vw', margin: 0, padding: 0 }} fluid>
+		<Container style={{ margin: 0, padding: 0 }} fluid>
 			<Topbar
 				content={dataCompanyInfo?.welcome_content ?? ''}
 				fbLink={dataCompanyContact?.facebook_link ?? ''}

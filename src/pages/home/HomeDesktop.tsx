@@ -10,42 +10,42 @@ import type { CompanyInfo } from '../../interfaces/CompanyInfo';
 import type { Product } from '../../interfaces/Product';
 
 interface Props {
-  companyInfo?: CompanyInfo;
-  products?: Product[];
-  loadingProducts: boolean;
+	companyInfo?: CompanyInfo;
+	products?: Product[];
+	loadingProducts: boolean;
 }
 
 const HomeDesktop = ({ companyInfo, products, loadingProducts }: Props) => {
-  return (
-    <Wrapper>
-      <Header loading={loadingProducts} />
-      <BannerSection
-        banner={companyInfo?.BANNER ?? ''}
-        COUNT_CUSTOMER={companyInfo?.COUNT_CUSTOMER ?? 0}
-        COUNT_CUSTOMER_SATISFY={companyInfo?.COUNT_CUSTOMER_SATISFY ?? 0}
-        COUNT_QUANLITY={companyInfo?.COUNT_QUANLITY ?? 0}
-      />
-      <SectionIntro
-        introContent={companyInfo?.intro_text ?? ''}
-        introImg={companyInfo?.img_intro ?? ''}
-      />
-      <OutstandingProducts
-        listProduct={products?.slice(0, 3) ?? []}
-        title="Dịch vụ nổi bật"
-      />
-      <StartCustomerSection />
-  <ContactSection listProduct={products ?? []} />
-      <Footer />
-    </Wrapper>
-  );
+	return (
+		<Wrapper>
+			<Header loading={loadingProducts} />
+			<BannerSection
+				banner={companyInfo?.BANNER ?? ''}
+				COUNT_CUSTOMER={companyInfo?.COUNT_CUSTOMER ?? 0}
+				COUNT_CUSTOMER_SATISFY={companyInfo?.COUNT_CUSTOMER_SATISFY ?? 0}
+				COUNT_QUANLITY={companyInfo?.COUNT_QUANLITY ?? 0}
+			/>
+			<SectionIntro
+				introContent={companyInfo?.intro_text ?? ''}
+				introImg={companyInfo?.img_intro ?? ''}
+			/>
+			<OutstandingProducts
+				listProduct={products?.slice(0, 3) ?? []}
+				title='Dịch vụ nổi bật'
+			/>
+			<StartCustomerSection />
+			<ContactSection listProduct={products ?? []} />
+			<Footer />
+		</Wrapper>
+	);
 };
 
 const Wrapper = styled.section`
-  background: #ffffff;
-  width: 100vw;
-  min-height: 100vh;
-  box-sizing: border-box;
-  margin: 0;
+	background: #ffffff;
+	width: 100%;
+	min-height: 100vh;
+	box-sizing: border-box;
+	margin: 0;
 `;
 
 export default HomeDesktop;

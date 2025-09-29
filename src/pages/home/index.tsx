@@ -8,34 +8,34 @@ import { useMediaQuery } from '../../hooks/useMediaQuery';
 const MOBILE_MAX_WIDTH = 479; // <480px
 
 const Home = () => {
-  const { data: dataCompanyInfo } = useApiWithQuery<CompanyInfo>(
-    '/company/info',
-    {},
-  );
+	const { data: dataCompanyInfo } = useApiWithQuery<CompanyInfo>(
+		'/company/info',
+		{},
+	);
 
-  const { data: dataProduct, loading: loadingGetProduct } = useApiWithQuery<
-    Product[]
-  >('/products', {});
+	const { data: dataProduct, loading: loadingGetProduct } = useApiWithQuery<
+		Product[]
+	>('/products', {});
 
-  const isMobile = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH}px)`);
+	const isMobile = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH}px)`);
 
-  if (isMobile) {
-    return (
-      <HomeMobile
-        companyInfo={dataCompanyInfo}
-        products={dataProduct}
-        loadingProducts={loadingGetProduct}
-      />
-    );
-  }
+	if (isMobile) {
+		return (
+			<HomeMobile
+				companyInfo={dataCompanyInfo}
+				products={dataProduct}
+				loadingProducts={loadingGetProduct}
+			/>
+		);
+	}
 
-  return (
-    <HomeDesktop
-      companyInfo={dataCompanyInfo}
-      products={dataProduct}
-      loadingProducts={loadingGetProduct}
-    />
-  );
+	return (
+		<HomeDesktop
+			companyInfo={dataCompanyInfo}
+			products={dataProduct}
+			loadingProducts={loadingGetProduct}
+		/>
+	);
 };
 
 export default Home;
