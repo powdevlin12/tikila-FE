@@ -39,11 +39,11 @@ const HomeMobile = ({ companyInfo, products, loadingProducts }: Props) => {
 			</Section>
 			<SectionCompact>
 				<OutstandingProducts
-					listProduct={products?.slice(0, 2) ?? []}
+					listProduct={products?.slice(0, 3) ?? []}
 					title='Dịch vụ nổi bật'
 				/>
 			</SectionCompact>
-			<Section>
+			{/* <Section>
 				<StartCustomerSection />
 			</Section>
 			<Section>
@@ -51,7 +51,7 @@ const HomeMobile = ({ companyInfo, products, loadingProducts }: Props) => {
 			</Section>
 			<FooterSection>
 				<Footer />
-			</FooterSection>
+			</FooterSection> */}
 		</Wrapper>
 	);
 };
@@ -71,8 +71,8 @@ const commonSection = css`
 	width: 100%;
 	margin: 0 auto;
 	max-width: ${contentMaxWidth};
-	padding-left: ${space.sm};
-	padding-right: ${space.sm};
+	/* padding-left: ${space.sm};
+	padding-right: ${space.sm}; */
 `;
 
 const Wrapper = styled.section`
@@ -84,8 +84,8 @@ const Wrapper = styled.section`
 	padding-bottom: ${space.xl};
 	overflow-x: hidden;
 	/* iOS safe area */
-	padding-left: max(${space.sm}, env(safe-area-inset-left));
-	padding-right: max(${space.sm}, env(safe-area-inset-right));
+	padding-left: 0;
+	padding-right: 0;
 
 	& h1 {
 		font-size: 1.35rem;
@@ -116,7 +116,7 @@ const HeaderBar = styled.div`
 	background: #ffffffcc;
 	backdrop-filter: blur(6px);
 	z-index: 10;
-	padding: ${space.xs} 0;
+	padding: 0;
 `;
 
 // Normal content section
@@ -140,7 +140,7 @@ const SectionFull = styled.div<{ bleed?: boolean }>`
 	width: 100%;
 	margin: 0;
 	padding: 0;
-	${(p) =>
+	${p =>
 		p.bleed &&
 		css`
 			/* Allow internal component manage its own spacing. */
