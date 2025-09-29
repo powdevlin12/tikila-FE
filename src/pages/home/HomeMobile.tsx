@@ -7,6 +7,7 @@ import BannerSection from './components/banner-section';
 import SectionIntro from './components/section-intro';
 import StartCustomerSection from './components/start-customer-section';
 import ContactSection from './components/contact-section';
+import Footer from '../../components/footer';
 
 interface Props {
 	companyInfo?: CompanyInfo;
@@ -48,9 +49,9 @@ const HomeMobile = ({ companyInfo, products, loadingProducts }: Props) => {
 			<Section>
 				<ContactSection listProduct={products ?? []} />
 			</Section>
-			{/* <FooterSection>
+			<FooterSection>
 				<Footer />
-			</FooterSection> */}
+			</FooterSection>
 		</Wrapper>
 	);
 };
@@ -80,7 +81,7 @@ const Wrapper = styled.section`
 	min-height: 100vh;
 	box-sizing: border-box;
 	margin: 0;
-	padding-bottom: ${space.xl};
+	padding-bottom: 0;
 	overflow-x: hidden;
 	/* iOS safe area */
 	padding-left: 0;
@@ -149,12 +150,12 @@ const SectionFull = styled.div<{ bleed?: boolean }>`
 		`}
 `;
 
-// const FooterSection = styled.footer`
-// 	${commonSection};
-// 	padding-top: ${space.lg};
-// 	padding-bottom: calc(${space.xl} + env(safe-area-inset-bottom));
-// 	margin-top: ${space.lg};
-// 	border-top: 1px solid #ececec;
-// `;
+const FooterSection = styled.footer`
+	${commonSection};
+	/* padding-top: ${space.lg};
+	padding-bottom: calc(${space.xl} + env(safe-area-inset-bottom)); */
+	/* margin-top: ${space.lg}; */
+	/* border-top: 1px solid #ececec; */
+`;
 
 export default HomeMobile;

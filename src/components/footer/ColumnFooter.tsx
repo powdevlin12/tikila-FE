@@ -2,24 +2,43 @@ import { Col } from 'react-bootstrap';
 import styled from 'styled-components';
 import type { FooterLink } from '../../interfaces/Footer';
 import { useApiWithQuery } from '../../services';
+import { useMediaQuery } from '../../hooks';
+import { MOBILE_MAX_WIDTH } from '../../contants/size';
 
 export type ColumnFooterProps = {
 	columnPosition: number;
+	isMobile?: boolean;
 };
 
-export const ColumnFooter = ({ columnPosition }: ColumnFooterProps) => {
+export const ColumnFooter = ({
+	columnPosition,
+	isMobile,
+}: ColumnFooterProps) => {
 	const { data, loading } = useApiWithQuery<FooterLink[]>(
 		`/footer-links/column/${columnPosition}`,
 		{},
 	);
 
-	if (loading) return <div>Loading...</div>;
+	// Always call hook, but use provided prop if available
+	const detectedMobile = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH}px)`);
+	const isResponsive = isMobile ?? detectedMobile;
+
+	if (loading)
+		return <LoadingText $isMobile={isResponsive}>Loading...</LoadingText>;
 
 	return (
-		<Col lg={3} md={3} className='mb-4 mb-lg-0'>
-			<FooterTitle>{data?.[0]?.title_column ?? ''}</FooterTitle>
+		<Col
+			lg={3}
+			md={isResponsive ? 6 : 3}
+			sm={isResponsive ? 6 : 12}
+			xs={12}
+			className={isResponsive ? 'mb-3' : 'mb-4 mb-lg-0'}
+		>
+			<FooterTitle $isMobile={isResponsive}>
+				{data?.[0]?.title_column ?? ''}
+			</FooterTitle>
 			{data?.map(link => (
-				<FooterLink key={link.id} href={link.url}>
+				<FooterLink key={link.id} href={link.url} $isMobile={isResponsive}>
 					{link.title}
 				</FooterLink>
 			))}
@@ -27,23 +46,59 @@ export const ColumnFooter = ({ columnPosition }: ColumnFooterProps) => {
 	);
 };
 
-const FooterTitle = styled.h5`
+const FooterTitle = styled.h5<{ $isMobile?: boolean }>`
 	color: white;
 	font-weight: 700;
-	margin-bottom: 1.5rem;
+	margin-bottom: ${props => (props.$isMobile ? '1rem' : '1.5rem')};
 	text-transform: uppercase;
-	font-size: 1.1rem;
+	font-size: ${props => (props.$isMobile ? '1rem' : '1.1rem')};
 	letter-spacing: 0.5px;
+	line-height: 1.3;
+
+	@media (max-width: 768px) {
+		font-size: 1.05rem;
+		margin-bottom: 1.2rem;
+	}
+
+	@media (max-width: 576px) {
+		font-size: 1rem;
+		margin-bottom: 1rem;
+	}
 `;
 
-const FooterLink = styled.a`
+const FooterLink = styled.a<{ $isMobile?: boolean }>`
 	display: block;
 	color: #9ca3af;
-	margin-bottom: 0.8rem;
+	margin-bottom: ${props => (props.$isMobile ? '0.6rem' : '0.8rem')};
 	text-decoration: none;
 	transition: color 0.2s ease-in-out;
+	font-size: ${props => (props.$isMobile ? '0.9rem' : '0.95rem')};
+	line-height: 1.4;
 
 	&:hover {
 		color: white;
+		text-decoration: none;
+	}
+
+	@media (max-width: 768px) {
+		font-size: 0.92rem;
+		margin-bottom: 0.7rem;
+	}
+
+	@media (max-width: 576px) {
+		font-size: 0.9rem;
+		margin-bottom: 0.6rem;
+	}
+`;
+
+const LoadingText = styled.div<{ $isMobile?: boolean }>`
+	color: #9ca3af;
+	font-size: ${props => (props.$isMobile ? '0.9rem' : '0.95rem')};
+	padding: ${props => (props.$isMobile ? '1rem' : '1.5rem')};
+	text-align: center;
+
+	@media (max-width: 576px) {
+		font-size: 0.85rem;
+		padding: 1rem;
 	}
 `;
