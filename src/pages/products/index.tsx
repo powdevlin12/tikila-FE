@@ -50,6 +50,7 @@ const Products = () => {
 				listProduct={dataProduct ?? []}
 				title='Tất cả dịch vụ'
 				isHiddenViewAll
+				isFromProductPage={true}
 			/>
 		</Wrapper>
 	);

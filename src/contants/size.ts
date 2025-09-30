@@ -1,1 +1,1 @@
-export const MOBILE_MAX_WIDTH = 479; // <480px
+export const MOBILE_MAX_WIDTH = 768; // <480px

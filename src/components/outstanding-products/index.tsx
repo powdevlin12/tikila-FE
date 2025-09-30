@@ -9,12 +9,14 @@ type OutstandingProductsProps = {
 	listProduct: Product[];
 	title: string;
 	isHiddenViewAll?: boolean;
+	isFromProductPage?: boolean;
 };
 
 const OutstandingProducts = ({
 	listProduct,
 	title,
 	isHiddenViewAll = false,
+	isFromProductPage = false,
 }: OutstandingProductsProps) => {
 	const isMobile = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH}px)`);
 
@@ -27,7 +29,7 @@ const OutstandingProducts = ({
 				</TitleWrapper>
 
 				{/* Products Grid/Carousel */}
-				{isMobile ? (
+				{isMobile && !isFromProductPage ? (
 					<CarouselWrapper>
 						<StyledCarousel
 							interval={2000}
@@ -56,9 +58,9 @@ const OutstandingProducts = ({
 							<Col
 								lg={4}
 								md={6}
-								sm={12}
+								sm={isMobile && isFromProductPage ? 12 : 12}
 								key={product.id}
-								className={!isHiddenViewAll ? '' : 'mb-5'}
+								className={!isHiddenViewAll ? 'mb-4' : 'mb-5'}
 							>
 								<ItemOutstandingProduct
 									title={product?.title || ''}
