@@ -4,12 +4,14 @@ import ItemOutstandingProduct from './item-outstanding-product';
 import type { Product } from '../../interfaces/Product';
 import { useMediaQuery } from '../../hooks';
 import { MOBILE_MAX_WIDTH } from '../../contants/size';
+import { useState, useMemo } from 'react';
 
 type OutstandingProductsProps = {
 	listProduct: Product[];
 	title: string;
 	isHiddenViewAll?: boolean;
 	isFromProductPage?: boolean;
+	itemsPerPage?: number; // Số item mỗi trang
 };
 
 const OutstandingProducts = ({
@@ -17,8 +19,64 @@ const OutstandingProducts = ({
 	title,
 	isHiddenViewAll = false,
 	isFromProductPage = false,
+	itemsPerPage = 10, // Mặc định 6 items mỗi trang
 }: OutstandingProductsProps) => {
 	const isMobile = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH}px)`);
+	const [currentPage, setCurrentPage] = useState(1);
+
+	// Tính toán pagination
+	const { paginatedProducts, totalPages, startIndex, endIndex } =
+		useMemo(() => {
+			// Nếu là mobile và không phải product page thì hiển thị tất cả (carousel)
+			if (isMobile && !isFromProductPage) {
+				return {
+					paginatedProducts: listProduct,
+					totalPages: 1,
+					startIndex: 0,
+					endIndex: listProduct.length,
+				};
+			}
+
+			// Nếu không phải từ product page và không ẩn "Xem tất cả" thì chỉ hiển thị 3 items đầu
+			if (!isFromProductPage && !isHiddenViewAll) {
+				return {
+					paginatedProducts: listProduct.slice(0, 3),
+					totalPages: 1,
+					startIndex: 0,
+					endIndex: Math.min(3, listProduct.length),
+				};
+			}
+
+			// Pagination cho product page
+			const total = Math.ceil(listProduct.length / itemsPerPage);
+			const start = (currentPage - 1) * itemsPerPage;
+			const end = start + itemsPerPage;
+			const paginated = listProduct.slice(start, end);
+
+			return {
+				paginatedProducts: paginated,
+				totalPages: total,
+				startIndex: start,
+				endIndex: Math.min(end, listProduct.length),
+			};
+		}, [
+			listProduct,
+			currentPage,
+			itemsPerPage,
+			isMobile,
+			isFromProductPage,
+			isHiddenViewAll,
+		]);
+
+	// Reset trang khi số lượng sản phẩm thay đổi
+	const handlePageChange = (page: number) => {
+		setCurrentPage(page);
+		// Scroll lên đầu section khi chuyển trang
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth',
+		});
+	};
 
 	return (
 		<SectionWrapper $isMobile={isMobile}>
@@ -33,11 +91,11 @@ const OutstandingProducts = ({
 					<CarouselWrapper>
 						<StyledCarousel
 							interval={2000}
-							indicators={listProduct && listProduct.length > 1}
-							controls={listProduct && listProduct.length > 1}
+							indicators={paginatedProducts && paginatedProducts.length > 1}
+							controls={paginatedProducts && paginatedProducts.length > 1}
 							pause='hover'
 						>
-							{listProduct?.map(product => (
+							{paginatedProducts?.map(product => (
 								<Carousel.Item key={product.id}>
 									<CarouselItemContainer>
 										<ItemOutstandingProduct
@@ -53,25 +111,84 @@ const OutstandingProducts = ({
 						</StyledCarousel>
 					</CarouselWrapper>
 				) : (
-					<Row>
-						{listProduct?.map(product => (
-							<Col
-								lg={4}
-								md={6}
-								sm={isMobile && isFromProductPage ? 12 : 12}
-								key={product.id}
-								className={!isHiddenViewAll ? 'mb-4' : 'mb-5'}
-							>
-								<ItemOutstandingProduct
-									title={product?.title || ''}
-									description={product?.description || ''}
-									image={product?.image_url || ''}
-									buttonText={'XEM CHI TIẾT'}
-									productId={product?.id}
-								/>
-							</Col>
-						)) ?? []}
-					</Row>
+					<>
+						<Row>
+							{paginatedProducts?.map(product => (
+								<Col
+									lg={4}
+									md={6}
+									sm={isMobile && isFromProductPage ? 12 : 12}
+									key={product.id}
+									className={!isHiddenViewAll ? 'mb-4' : 'mb-5'}
+								>
+									<ItemOutstandingProduct
+										title={product?.title || ''}
+										description={product?.description || ''}
+										image={product?.image_url || ''}
+										buttonText={'XEM CHI TIẾT'}
+										productId={product?.id}
+									/>
+								</Col>
+							)) ?? []}
+						</Row>
+
+						{/* Pagination - chỉ hiển thị khi là product page và có nhiều hơn 1 trang */}
+						{isFromProductPage && totalPages > 1 && (
+							<PaginationWrapper $isMobile={isMobile}>
+								<PaginationInfo $isMobile={isMobile}>
+									Hiển thị {startIndex + 1}-{endIndex} trong tổng số{' '}
+									{listProduct.length} sản phẩm
+								</PaginationInfo>
+								<PaginationControls>
+									<PageButton
+										$isMobile={isMobile}
+										disabled={currentPage === 1}
+										onClick={() => handlePageChange(currentPage - 1)}
+									>
+										« Trước
+									</PageButton>
+
+									{Array.from({ length: totalPages }, (_, index) => {
+										const page = index + 1;
+										// Hiển thị tối đa 5 số trang
+										if (
+											page === 1 ||
+											page === totalPages ||
+											(page >= currentPage - 1 && page <= currentPage + 1)
+										) {
+											return (
+												<PageButton
+													key={page}
+													$isMobile={isMobile}
+													$isActive={currentPage === page}
+													onClick={() => handlePageChange(page)}
+												>
+													{page}
+												</PageButton>
+											);
+										}
+										// Hiển thị dấu "..." khi cần
+										if (page === currentPage - 2 || page === currentPage + 2) {
+											return (
+												<PageEllipsis key={`ellipsis-${page}`}>
+													...
+												</PageEllipsis>
+											);
+										}
+										return null;
+									})}
+
+									<PageButton
+										$isMobile={isMobile}
+										disabled={currentPage === totalPages}
+										onClick={() => handlePageChange(currentPage + 1)}
+									>
+										Tiếp »
+									</PageButton>
+								</PaginationControls>
+							</PaginationWrapper>
+						)}
+					</>
 				)}
 
 				{/* View All Button */}
@@ -247,6 +364,87 @@ const ArrowIcon = styled.span`
 
 	${ViewAllButton}:hover & {
 		transform: translateX(5px);
+	}
+`;
+
+// Pagination Styled Components
+const PaginationWrapper = styled.div<{ $isMobile?: boolean }>`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: ${props => (props.$isMobile ? '15px' : '20px')};
+	margin-top: ${props => (props.$isMobile ? '2rem' : '3rem')};
+	padding: ${props => (props.$isMobile ? '0 1rem' : '0')};
+`;
+
+const PaginationInfo = styled.div<{ $isMobile?: boolean }>`
+	font-size: ${props => (props.$isMobile ? '0.9rem' : '1rem')};
+	color: #666;
+	text-align: center;
+	font-weight: 500;
+`;
+
+const PaginationControls = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+	justify-content: center;
+`;
+
+const PageButton = styled.button<{ $isMobile?: boolean; $isActive?: boolean }>`
+	background: ${props => (props.$isActive ? '#0966c5' : 'transparent')};
+	color: ${props => (props.$isActive ? 'white' : '#0966c5')};
+	border: 2px solid #0966c5;
+	padding: ${props => (props.$isMobile ? '8px 12px' : '10px 15px')};
+	border-radius: 8px;
+	font-weight: 600;
+	font-size: ${props => (props.$isMobile ? '0.9rem' : '1rem')};
+	cursor: pointer;
+	transition: all 0.3s ease;
+	min-width: ${props => (props.$isMobile ? '40px' : '45px')};
+	height: ${props => (props.$isMobile ? '40px' : '45px')};
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	&:hover:not(:disabled) {
+		background: ${props => (props.$isActive ? '#1976d2' : '#0966c5')};
+		color: white;
+		transform: translateY(-2px);
+		box-shadow: 0 4px 12px rgba(9, 102, 197, 0.3);
+	}
+
+	&:active:not(:disabled) {
+		transform: translateY(0);
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+		transform: none;
+		box-shadow: none;
+	}
+
+	@media (max-width: 576px) {
+		padding: 6px 10px;
+		font-size: 0.85rem;
+		min-width: 35px;
+		height: 35px;
+	}
+`;
+
+const PageEllipsis = styled.span`
+	color: #666;
+	font-weight: 500;
+	padding: 0 5px;
+	display: flex;
+	align-items: center;
+	height: 45px;
+
+	@media (max-width: 576px) {
+		height: 35px;
+		font-size: 0.85rem;
 	}
 `;
 
