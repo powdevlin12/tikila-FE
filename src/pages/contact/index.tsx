@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
+import { usePageTitle } from '../../hooks';
 
 const ContactPage = () => {
+	usePageTitle('Liên hệ');
+
 	return (
 		<div style={{ padding: '20px' }}>
 			<h1>Trang Liên Hệ</h1>

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Header from '../../components/header';
 import LoadingView from '../../components/loading-view';
 import { MOBILE_MAX_WIDTH } from '../../contants/size';
-import { useMediaQuery, useScrollToTop } from '../../hooks';
+import { useMediaQuery, useScrollToTop, usePageTitle } from '../../hooks';
 import type { Product } from '../../interfaces/Product';
 import { useApiWithQuery } from '../../services';
 import Footer from '../../components/footer';
@@ -21,8 +21,10 @@ const DetailProduct = () => {
 		error,
 	} = useApiWithQuery<Product>(`/products/${id}`, {});
 
-	// Scroll to top when component mounts or when id changes
+	// Set page title based on product title
+	usePageTitle(productData?.title || 'Chi tiết sản phẩm');
 
+	// Scroll to top when component mounts or when id changes
 	useScrollToTop(id ?? '');
 
 	// Function to handle image load and detect orientation

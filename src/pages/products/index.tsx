@@ -6,12 +6,15 @@ import type { Product } from '../../interfaces/Product';
 import { Container } from 'react-bootstrap';
 import { RotateLoader } from 'react-spinners';
 import { COLORS } from '../../contants/colors';
+import { usePageTitle } from '../../hooks';
 import Topbar from '../../components/topbar';
 import OutstandingProducts from '../../components/outstanding-products';
 import CustomNavbar from '../../components/navbar';
 import Footer from '../../components/footer';
 
 const Products = () => {
+	usePageTitle('Sản phẩm');
+
 	const { data: dataCompanyInfo, loading: loadingGetCompanyInfo } =
 		useApiWithQuery<CompanyInfo>('/company/info', {});
 

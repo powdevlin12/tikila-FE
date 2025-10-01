@@ -3,7 +3,7 @@ import Header from '../../components/header';
 import HTMLReactParser from 'html-react-parser';
 import { useApiWithQuery } from '../../services';
 import LoadingView from '../../components/loading-view';
-import { useScrollToTop, useMediaQuery } from '../../hooks';
+import { useScrollToTop, useMediaQuery, usePageTitle } from '../../hooks';
 import { MOBILE_MAX_WIDTH } from '../../contants/size';
 import Footer from '../../components/footer';
 
@@ -12,6 +12,8 @@ interface IntroDetail {
 }
 
 const Introduce = () => {
+	usePageTitle('Giới thiệu');
+
 	const isMobile = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH}px)`);
 
 	const {

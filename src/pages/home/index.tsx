@@ -3,10 +3,12 @@ import type { Product } from '../../interfaces/Product';
 import { useApiWithQuery } from '../../services';
 import HomeDesktop from './HomeDesktop';
 import HomeMobile from './HomeMobile';
-import { useMediaQuery } from '../../hooks/useMediaQuery';
+import { useMediaQuery, usePageTitle } from '../../hooks';
 import { MOBILE_MAX_WIDTH } from '../../contants/size';
 
 const Home = () => {
+	usePageTitle('Trang chủ');
+
 	const { data: dataCompanyInfo } = useApiWithQuery<CompanyInfo>(
 		'/company/info',
 		{},
