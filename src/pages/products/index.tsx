@@ -9,6 +9,7 @@ import { COLORS } from '../../contants/colors';
 import Topbar from '../../components/topbar';
 import OutstandingProducts from '../../components/outstanding-products';
 import CustomNavbar from '../../components/navbar';
+import Footer from '../../components/footer';
 
 const Products = () => {
 	const { data: dataCompanyInfo, loading: loadingGetCompanyInfo } =
@@ -52,6 +53,7 @@ const Products = () => {
 				isHiddenViewAll
 				isFromProductPage={true}
 			/>
+			<Footer />
 		</Wrapper>
 	);
 };

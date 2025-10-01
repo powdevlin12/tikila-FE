@@ -3,17 +3,24 @@ import Header from '../../components/header';
 import HTMLReactParser from 'html-react-parser';
 import { useApiWithQuery } from '../../services';
 import LoadingView from '../../components/loading-view';
+import { useScrollToTop, useMediaQuery } from '../../hooks';
+import { MOBILE_MAX_WIDTH } from '../../contants/size';
+import Footer from '../../components/footer';
 
 interface IntroDetail {
 	intro_text_detail: string;
 }
 
 const Introduce = () => {
+	const isMobile = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH}px)`);
+
 	const {
 		data: introData,
 		loading,
 		error,
 	} = useApiWithQuery<IntroDetail>('/company/intro-detail', {});
+
+	useScrollToTop('');
 
 	if (loading) {
 		return (
@@ -28,7 +35,7 @@ const Introduce = () => {
 		return (
 			<Wrapper>
 				<Header />
-				<ContentContainer>
+				<ContentContainer $isMobile={isMobile}>
 					<ErrorMessage>Có lỗi xảy ra khi tải nội dung giới thiệu</ErrorMessage>
 				</ContentContainer>
 			</Wrapper>
@@ -38,8 +45,8 @@ const Introduce = () => {
 	return (
 		<Wrapper>
 			<Header />
-			<ContentContainer>
-				<IntroContent>
+			<ContentContainer $isMobile={isMobile}>
+				<IntroContent $isMobile={isMobile}>
 					{introData?.intro_text_detail ? (
 						HTMLReactParser(introData.intro_text_detail)
 					) : (
@@ -47,6 +54,7 @@ const Introduce = () => {
 					)}
 				</IntroContent>
 			</ContentContainer>
+			<Footer />
 		</Wrapper>
 	);
 };
@@ -59,15 +67,23 @@ const Wrapper = styled.section`
 	margin: 0;
 `;
 
-const ContentContainer = styled.div`
+const ContentContainer = styled.div<{ $isMobile?: boolean }>`
 	max-width: 100%;
-	padding: 2rem 10rem;
+	padding: ${props => (props.$isMobile ? '1.5rem 1rem' : '2rem 10rem')};
 	margin: 0 auto;
+
+	@media (max-width: 768px) {
+		padding: 1.5rem 1.2rem;
+	}
+
+	@media (max-width: 576px) {
+		padding: 1rem 0.8rem;
+	}
 `;
 
-const IntroContent = styled.div`
+const IntroContent = styled.div<{ $isMobile?: boolean }>`
 	line-height: 1.8;
-	font-size: 16px;
+	font-size: ${props => (props.$isMobile ? '15px' : '16px')};
 	color: #555;
 	text-align: justify;
 
@@ -82,8 +98,9 @@ const IntroContent = styled.div`
 	h5,
 	h6 {
 		color: #333;
-		margin: 40px 0 20px 0;
+		margin: ${props => (props.$isMobile ? '25px 0 15px 0' : '40px 0 20px 0')};
 		font-weight: bold;
+		line-height: 1.3;
 
 		&:first-child {
 			margin-top: 0;
@@ -91,69 +108,87 @@ const IntroContent = styled.div`
 	}
 
 	h1 {
-		font-size: 2.5rem;
+		font-size: ${props => (props.$isMobile ? '1.8rem' : '2.5rem')};
 		color: #2c3e50;
-		margin-bottom: 30px;
+		margin-bottom: ${props => (props.$isMobile ? '20px' : '30px')};
 
 		@media (max-width: 768px) {
 			font-size: 2rem;
 		}
+
+		@media (max-width: 576px) {
+			font-size: 1.6rem;
+		}
 	}
 
 	h2 {
-		font-size: 2rem;
+		font-size: ${props => (props.$isMobile ? '1.4rem' : '2rem')};
 		color: #34495e;
 
 		@media (max-width: 768px) {
 			font-size: 1.5rem;
 		}
+
+		@media (max-width: 576px) {
+			font-size: 1.3rem;
+		}
 	}
 
 	h3 {
-		font-size: 1.5rem;
+		font-size: ${props => (props.$isMobile ? '1.2rem' : '1.5rem')};
 		color: #34495e;
+
+		@media (max-width: 576px) {
+			font-size: 1.1rem;
+		}
 	}
 
 	p {
-		margin-bottom: 20px;
-		text-indent: 2em;
+		margin-bottom: ${props => (props.$isMobile ? '15px' : '20px')};
+		text-indent: ${props => (props.$isMobile ? '1.5em' : '2em')};
+		line-height: ${props => (props.$isMobile ? '1.6' : '1.8')};
 
 		&:first-of-type {
 			text-indent: 0;
 		}
+
+		@media (max-width: 576px) {
+			margin-bottom: 12px;
+			text-indent: 1em;
+			line-height: 1.5;
+		}
 	}
 
 	img {
-		max-width: 60%;
+		/* Responsive image sizing */
+		max-width: ${props => (props.$isMobile ? '100%' : '70%')};
 		width: 100%;
-		object-fit: cover;
-		border-radius: 12px;
-		margin: 30px auto;
-		display: block;
-		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-		transition: transform 0.3s ease, box-shadow 0.3s ease;
+		height: ${props => (props.$isMobile ? '300px' : '450px')};
 
-		&:hover {
-			transform: translateY(-2px);
-			box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
-		}
+		/* Image behavior */
+		object-fit: cover;
+		object-position: center;
+
+		/* Layout */
+		border-radius: ${props => (props.$isMobile ? '8px' : '12px')};
+		margin: ${props => (props.$isMobile ? '15px auto 20px' : '30px auto')};
+		display: block;
+
+		/* Background */
+		background: #f8f9fa;
 
 		@media (max-width: 768px) {
-			max-width: 100%;
-			height: 250px;
-			margin: 20px auto;
-		}
-
-		@media (max-width: 480px) {
-			height: 200px;
+			height: 280px;
+			margin: 15px auto;
+			border-radius: 8px;
 		}
 	}
 
 	blockquote {
 		border-left: 4px solid #007bff;
 		background: #f8f9fa;
-		padding: 20px;
-		margin: 30px 0;
+		padding: ${props => (props.$isMobile ? '15px' : '20px')};
+		margin: ${props => (props.$isMobile ? '20px 0' : '30px 0')};
 		font-style: italic;
 		border-radius: 4px;
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -162,16 +197,30 @@ const IntroContent = styled.div`
 			margin-bottom: 0;
 			text-indent: 0;
 		}
+
+		@media (max-width: 576px) {
+			padding: 12px;
+			margin: 15px 0;
+		}
 	}
 
 	ul,
 	ol {
-		margin: 20px 0;
-		padding-left: 30px;
+		margin: ${props => (props.$isMobile ? '15px 0' : '20px 0')};
+		padding-left: ${props => (props.$isMobile ? '25px' : '30px')};
+
+		@media (max-width: 576px) {
+			margin: 12px 0;
+			padding-left: 20px;
+		}
 	}
 
 	li {
-		margin-bottom: 10px;
+		margin-bottom: ${props => (props.$isMobile ? '8px' : '10px')};
+
+		@media (max-width: 576px) {
+			margin-bottom: 6px;
+		}
 	}
 
 	a {

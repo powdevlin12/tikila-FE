@@ -1,19 +1,36 @@
+import HTMLReactParser from 'html-react-parser';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import HTMLReactParser from 'html-react-parser';
-import { useApiWithQuery } from '../../services';
 import Header from '../../components/header';
 import LoadingView from '../../components/loading-view';
+import { MOBILE_MAX_WIDTH } from '../../contants/size';
+import { useMediaQuery, useScrollToTop } from '../../hooks';
 import type { Product } from '../../interfaces/Product';
+import { useApiWithQuery } from '../../services';
+import Footer from '../../components/footer';
 
 const DetailProduct = () => {
 	const { id } = useParams<{ id: string }>();
+	const isMobile = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH}px)`);
+	const [isPortraitImage, setIsPortraitImage] = useState(false);
 
 	const {
 		data: productData,
 		loading,
 		error,
 	} = useApiWithQuery<Product>(`/products/${id}`, {});
+
+	// Scroll to top when component mounts or when id changes
+
+	useScrollToTop(id ?? '');
+
+	// Function to handle image load and detect orientation
+	const handleImageLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
+		const img = event.currentTarget;
+		const isPortrait = img.naturalHeight > img.naturalWidth;
+		setIsPortraitImage(isPortrait);
+	};
 
 	if (loading) {
 		return (
@@ -28,7 +45,7 @@ const DetailProduct = () => {
 		return (
 			<Wrapper>
 				<Header />
-				<ContentContainer>
+				<ContentContainer $isMobile={isMobile}>
 					<ErrorMessage>Có lỗi xảy ra khi tải thông tin sản phẩm</ErrorMessage>
 				</ContentContainer>
 			</Wrapper>
@@ -39,7 +56,7 @@ const DetailProduct = () => {
 		return (
 			<Wrapper>
 				<Header />
-				<ContentContainer>
+				<ContentContainer $isMobile={isMobile}>
 					<ErrorMessage>Không tìm thấy sản phẩm</ErrorMessage>
 				</ContentContainer>
 			</Wrapper>
@@ -49,10 +66,16 @@ const DetailProduct = () => {
 	return (
 		<Wrapper>
 			<Header />
-			<ContentContainer>
-				<ProductTitle>{productData.title}</ProductTitle>
-				<ProductImage src={productData.image_url} alt={productData.title} />
-				<ProductContent>
+			<ContentContainer $isMobile={isMobile}>
+				<ProductTitle $isMobile={isMobile}>{productData.title}</ProductTitle>
+				<ProductImage
+					$isMobile={isMobile}
+					$isPortrait={isPortraitImage}
+					src={productData.image_url}
+					alt={productData.title}
+					onLoad={handleImageLoad}
+				/>
+				<ProductContent $isMobile={isMobile}>
 					{productData.detail_info ? (
 						HTMLReactParser(productData.detail_info)
 					) : (
@@ -63,6 +86,7 @@ const DetailProduct = () => {
 					)}
 				</ProductContent>
 			</ContentContainer>
+			<Footer />
 		</Wrapper>
 	);
 };
@@ -75,57 +99,78 @@ const Wrapper = styled.section`
 	margin: 0;
 `;
 
-const ContentContainer = styled.div`
+const ContentContainer = styled.div<{ $isMobile?: boolean }>`
 	max-width: 100%;
-	padding: 2rem 10rem;
+	padding: ${props => (props.$isMobile ? '1.5rem 1rem' : '2rem 10rem')};
 	margin: 0 auto;
 
 	@media (max-width: 768px) {
-		padding: 2rem 2rem;
+		padding: 1.5rem 1.2rem;
+	}
+
+	@media (max-width: 576px) {
+		padding: 1rem 0.8rem;
 	}
 `;
 
-const ProductTitle = styled.h1`
-	font-size: 2.5rem;
+const ProductTitle = styled.h1<{ $isMobile?: boolean }>`
+	font-size: ${props => (props.$isMobile ? '1.8rem' : '2.5rem')};
 	color: #2c3e50;
-	margin-bottom: 30px;
+	margin-bottom: ${props => (props.$isMobile ? '20px' : '30px')};
 	text-align: center;
 	font-weight: bold;
+	line-height: 1.3;
 
 	@media (max-width: 768px) {
 		font-size: 2rem;
+		margin-bottom: 25px;
+	}
+
+	@media (max-width: 576px) {
+		font-size: 1.6rem;
+		margin-bottom: 20px;
+		line-height: 1.2;
 	}
 `;
 
-const ProductImage = styled.img`
-	max-width: 60%;
+const ProductImage = styled.img<{ $isMobile?: boolean; $isPortrait?: boolean }>`
+	/* Container sizing */
+	max-width: ${props => {
+		if (props.$isMobile && props.$isPortrait) {
+			return '80%'; // Ảnh dọc trên mobile lớn hơn
+		}
+		return props.$isMobile ? '100%' : '70%';
+	}};
 	width: 100%;
-	object-fit: cover;
-	border-radius: 12px;
-	margin: 30px auto;
-	display: block;
-	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	height: ${props => {
+		if (props.$isMobile && props.$isPortrait) {
+			return '350px'; // Ảnh dọc trên mobile cao hơn
+		}
+		return props.$isMobile ? '250px' : '450px';
+	}};
 
-	&:hover {
-		transform: translateY(-2px);
-		box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
-	}
+	/* Image behavior */
+	object-fit: cover;
+	object-position: center;
+
+	/* Layout */
+	border-radius: ${props => (props.$isMobile ? '8px' : '12px')};
+	margin: ${props => (props.$isMobile ? '15px auto 20px' : '30px auto')};
+	display: block;
+
+	/* Background */
 
 	@media (max-width: 768px) {
-		max-width: 100%;
-		height: 250px;
+		max-width: ${props => (props.$isPortrait ? '85%' : '100%')};
+		height: ${props => (props.$isPortrait ? '320px' : '280px')};
 		margin: 20px auto;
-	}
-
-	@media (max-width: 480px) {
-		height: 200px;
+		border-radius: 10px;
 	}
 `;
 
-const ProductContent = styled.div`
+const ProductContent = styled.div<{ $isMobile?: boolean }>`
 	line-height: 1.8;
-	font-size: 16px;
+	font-size: ${props => (props.$isMobile ? '15px' : '16px')};
 	color: #555;
 	text-align: justify;
 
@@ -140,8 +185,9 @@ const ProductContent = styled.div`
 	h5,
 	h6 {
 		color: #333;
-		margin: 40px 0 20px 0;
+		margin: ${props => (props.$isMobile ? '25px 0 15px 0' : '40px 0 20px 0')};
 		font-weight: bold;
+		line-height: 1.3;
 
 		&:first-child {
 			margin-top: 0;
@@ -149,69 +195,84 @@ const ProductContent = styled.div`
 	}
 
 	h1 {
-		font-size: 2.5rem;
+		font-size: ${props => (props.$isMobile ? '1.8rem' : '2.5rem')};
 		color: #2c3e50;
-		margin-bottom: 30px;
+		margin-bottom: ${props => (props.$isMobile ? '20px' : '30px')};
 
 		@media (max-width: 768px) {
 			font-size: 2rem;
 		}
+
+		@media (max-width: 576px) {
+			font-size: 1.6rem;
+		}
 	}
 
 	h2 {
-		font-size: 2rem;
+		font-size: ${props => (props.$isMobile ? '1.4rem' : '2rem')};
 		color: #34495e;
 
 		@media (max-width: 768px) {
 			font-size: 1.5rem;
 		}
+
+		@media (max-width: 576px) {
+			font-size: 1.3rem;
+		}
 	}
 
 	h3 {
-		font-size: 1.5rem;
+		font-size: ${props => (props.$isMobile ? '1.2rem' : '1.5rem')};
 		color: #34495e;
+
+		@media (max-width: 576px) {
+			font-size: 1.1rem;
+		}
 	}
 
 	p {
-		margin-bottom: 20px;
-		text-indent: 2em;
+		margin-bottom: ${props => (props.$isMobile ? '15px' : '20px')};
+		text-indent: ${props => (props.$isMobile ? '1.5em' : '2em')};
+		line-height: ${props => (props.$isMobile ? '1.6' : '1.8')};
 
 		&:first-of-type {
 			text-indent: 0;
 		}
+
+		@media (max-width: 576px) {
+			margin-bottom: 12px;
+			text-indent: 1em;
+			line-height: 1.5;
+		}
 	}
 
 	img {
-		max-width: 60%;
+		/* Responsive image sizing */
+		/* max-width: ${props => (props.$isMobile ? '100%' : '90%')}; */
 		width: 100%;
-		object-fit: cover;
-		border-radius: 12px;
-		margin: 30px auto;
-		display: block;
-		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-		transition: transform 0.3s ease, box-shadow 0.3s ease;
+		/* height: ${props => (props.$isMobile ? '200px' : '300px')}; */
 
-		&:hover {
-			transform: translateY(-2px);
-			box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
-		}
+		/* Image behavior */
+		object-fit: contain;
+		object-position: center;
+
+		/* Layout */
+		border-radius: ${props => (props.$isMobile ? '8px' : '12px')};
+		margin: ${props => (props.$isMobile ? '15px auto 20px' : '30px auto')};
+		display: block;
 
 		@media (max-width: 768px) {
-			max-width: 100%;
-			height: 250px;
-			margin: 20px auto;
-		}
-
-		@media (max-width: 480px) {
-			height: 200px;
+			height: 180px;
+			margin: 15px auto;
+			border-radius: 8px;
 		}
 	}
 
 	blockquote {
 		border-left: 4px solid #007bff;
 		background: #f8f9fa;
-		padding: 20px;
-		margin: 30px 0;
+		padding: ${props => (props.$isMobile ? '15px' : '20px')};
+		margin: ${props => (props.$isMobile ? '20px 0' : '30px 0')};
 		font-style: italic;
 		border-radius: 4px;
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -220,16 +281,30 @@ const ProductContent = styled.div`
 			margin-bottom: 0;
 			text-indent: 0;
 		}
+
+		@media (max-width: 576px) {
+			padding: 12px;
+			margin: 15px 0;
+		}
 	}
 
 	ul,
 	ol {
-		margin: 20px 0;
-		padding-left: 30px;
+		margin: ${props => (props.$isMobile ? '15px 0' : '20px 0')};
+		padding-left: ${props => (props.$isMobile ? '25px' : '30px')};
+
+		@media (max-width: 576px) {
+			margin: 12px 0;
+			padding-left: 20px;
+		}
 	}
 
 	li {
-		margin-bottom: 10px;
+		margin-bottom: ${props => (props.$isMobile ? '8px' : '10px')};
+
+		@media (max-width: 576px) {
+			margin-bottom: 6px;
+		}
 	}
 
 	a {
