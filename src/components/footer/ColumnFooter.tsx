@@ -1,30 +1,24 @@
 import { Col } from 'react-bootstrap';
 import styled from 'styled-components';
-import type { FooterLink } from '../../interfaces/Footer';
-import { useApiWithQuery } from '../../services';
+import type { FooterColumn, FooterLink } from '../../interfaces/Footer';
 import { useMediaQuery } from '../../hooks';
 import { MOBILE_MAX_WIDTH } from '../../contants/size';
 
 export type ColumnFooterProps = {
-	columnPosition: number;
+	column: FooterColumn;
 	isMobile?: boolean;
 };
 
-export const ColumnFooter = ({
-	columnPosition,
-	isMobile,
-}: ColumnFooterProps) => {
-	const { data, loading } = useApiWithQuery<FooterLink[]>(
-		`/footer-links/column/${columnPosition}`,
-		{},
-	);
-
+export const ColumnFooter = ({ column, isMobile }: ColumnFooterProps) => {
 	// Always call hook, but use provided prop if available
 	const detectedMobile = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH}px)`);
 	const isResponsive = isMobile ?? detectedMobile;
 
-	if (loading)
-		return <LoadingText $isMobile={isResponsive}>Loading...</LoadingText>;
+	// Sort links by orderPosition
+	const sortedLinks =
+		column.footerLinks?.sort(
+			(a, b) => (a.orderPosition || 0) - (b.orderPosition || 0),
+		) || [];
 
 	return (
 		<Col
@@ -34,10 +28,8 @@ export const ColumnFooter = ({
 			xs={12}
 			className={isResponsive ? 'mb-3' : 'mb-4 mb-lg-0'}
 		>
-			<FooterTitle $isMobile={isResponsive}>
-				{data?.[0]?.title_column ?? ''}
-			</FooterTitle>
-			{data?.map(link => (
+			<FooterTitle $isMobile={isResponsive}>{column.title}</FooterTitle>
+			{sortedLinks.map(link => (
 				<FooterLink key={link.id} href={link.url} $isMobile={isResponsive}>
 					{link.title}
 				</FooterLink>
@@ -88,17 +80,5 @@ const FooterLink = styled.a<{ $isMobile?: boolean }>`
 	@media (max-width: 576px) {
 		font-size: 0.9rem;
 		margin-bottom: 0.6rem;
-	}
-`;
-
-const LoadingText = styled.div<{ $isMobile?: boolean }>`
-	color: #9ca3af;
-	font-size: ${props => (props.$isMobile ? '0.9rem' : '0.95rem')};
-	padding: ${props => (props.$isMobile ? '1rem' : '1.5rem')};
-	text-align: center;
-
-	@media (max-width: 576px) {
-		font-size: 0.85rem;
-		padding: 1rem;
 	}
 `;

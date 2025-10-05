@@ -2,22 +2,44 @@ import { Col, Container, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import { ColumnFooter } from './ColumnFooter';
 import { useMediaQuery } from '../../hooks';
+import { useApiWithQuery } from '../../services';
 import { MOBILE_MAX_WIDTH } from '../../contants/size';
+import type { FooterColumn } from '../../interfaces/Footer';
 
 const Footer = () => {
 	const isMobile = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH}px)`);
+
+	// Fetch footer columns with their links
+	const { data: footerColumns, loading } = useApiWithQuery<FooterColumn[]>(
+		'/footer-columns',
+		{},
+	);
+
+	if (loading) {
+		return (
+			<FooterWrapper $isMobile={isMobile}>
+				<Container>
+					<Row>
+						<Col className='text-center'>
+							<LoadingText $isMobile={isMobile}>Loading footer...</LoadingText>
+						</Col>
+					</Row>
+				</Container>
+			</FooterWrapper>
+		);
+	}
+
+	// Sort columns by position
+	const sortedColumns =
+		footerColumns?.sort((a, b) => a.position - b.position) || [];
 
 	return (
 		<FooterWrapper $isMobile={isMobile}>
 			<Container>
 				<Row>
-					{/* Column 1: Company Info */}
-					<ColumnFooter columnPosition={1} isMobile={isMobile} />
-					{/* Column 2: Services */}
-					<ColumnFooter columnPosition={2} isMobile={isMobile} />
-					{/* Column 3: Policies */}
-					<ColumnFooter columnPosition={3} isMobile={isMobile} />
-					<ColumnFooter columnPosition={4} isMobile={isMobile} />
+					{sortedColumns.map(column => (
+						<ColumnFooter key={column.id} column={column} isMobile={isMobile} />
+					))}
 				</Row>
 				<Divider $isMobile={isMobile} />
 				<Row>
@@ -72,6 +94,18 @@ const CopyrightText = styled.p<{ $isMobile?: boolean }>`
 
 	@media (max-width: 576px) {
 		font-size: 0.8rem;
+	}
+`;
+
+const LoadingText = styled.div<{ $isMobile?: boolean }>`
+	color: #9ca3af;
+	font-size: ${props => (props.$isMobile ? '0.9rem' : '0.95rem')};
+	padding: ${props => (props.$isMobile ? '1rem' : '2rem')};
+	text-align: center;
+
+	@media (max-width: 576px) {
+		font-size: 0.85rem;
+		padding: 1rem;
 	}
 `;
 

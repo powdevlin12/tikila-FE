@@ -2,4 +2,5 @@
 export * from './hooks';
 export * from './mutations';
 export * from './starCustomer';
+export * from './footer';
 export { default as apiClient } from './api';

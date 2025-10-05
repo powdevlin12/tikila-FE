@@ -1,8 +1,17 @@
+export interface FooterColumn {
+	id: number;
+	title: string;
+	position: number;
+	footerLinks?: FooterLink[];
+	createdAt: Date;
+}
+
 export interface FooterLink {
 	id?: number;
 	title: string;
-	column_position: number;
 	url?: string;
-	title_column: string;
-	created_at?: Date;
+	orderPosition?: number;
+	footerColumnId?: number;
+	footerColumn?: FooterColumn;
+	createdAt?: Date;
 }
