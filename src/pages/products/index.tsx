@@ -41,14 +41,14 @@ const Products = () => {
 	return (
 		<Wrapper>
 			<Topbar
-				content={dataCompanyInfo?.welcome_content ?? ''}
+				content={dataCompanyInfo?.welcomeContent ?? ''}
 				fbLink={dataCompanyContact?.facebook_link ?? ''}
 				ytLink={dataCompanyContact?.zalo_link ?? ''}
 				tiktokLink={dataCompanyContact?.tiktok_link ?? ''}
 			/>
 			<CustomNavbar
 				phone={dataCompanyContact?.phone ?? ''}
-				logo={dataCompanyInfo?.logo_url ?? ''}
+				logo={dataCompanyInfo?.logoUrl ?? ''}
 			/>
 			<OutstandingProducts
 				listProduct={dataProduct ?? []}

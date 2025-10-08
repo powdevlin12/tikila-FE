@@ -1,18 +1,20 @@
 export interface CompanyInfo {
 	id?: number;
 	name?: string;
-	logo_url?: string;
-	intro_text?: string;
+	logoUrl?: string;
+	introText?: string;
 	address?: string;
+	taxCode?: string;
 	email?: string;
-	created_at?: string;
-	updated_at?: string;
-	welcome_content?: string;
-	contact_id?: string;
-	img_intro?: string;
-	version_info?: string;
-	BANNER?: string;
-	COUNT_CUSTOMER?: number;
-	COUNT_CUSTOMER_SATISFY?: number;
-	COUNT_QUANLITY?: number;
+	welcomeContent?: string;
+	versionInfo?: number | null;
+	contactId?: number | null;
+	imgIntro?: string;
+	banner?: string;
+	countCustomer?: number;
+	countCustomerSatisfy?: number;
+	countQuality?: number;
+	introTextDetail?: string;
+	createdAt?: string;
+	updatedAt?: string;
 }

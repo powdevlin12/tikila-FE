@@ -20,14 +20,14 @@ const HomeDesktop = ({ companyInfo, products, loadingProducts }: Props) => {
 		<Wrapper>
 			<Header loading={loadingProducts} />
 			<BannerSection
-				banner={companyInfo?.BANNER ?? ''}
-				COUNT_CUSTOMER={companyInfo?.COUNT_CUSTOMER ?? 0}
-				COUNT_CUSTOMER_SATISFY={companyInfo?.COUNT_CUSTOMER_SATISFY ?? 0}
-				COUNT_QUANLITY={companyInfo?.COUNT_QUANLITY ?? 0}
+				banner={companyInfo?.banner ?? ''}
+				COUNT_CUSTOMER={companyInfo?.countCustomer ?? 0}
+				COUNT_CUSTOMER_SATISFY={companyInfo?.countCustomerSatisfy ?? 0}
+				COUNT_QUANLITY={companyInfo?.countQuality ?? 0}
 			/>
 			<SectionIntro
-				introContent={companyInfo?.intro_text ?? ''}
-				introImg={companyInfo?.img_intro ?? ''}
+				introContent={companyInfo?.introText ?? ''}
+				introImg={companyInfo?.imgIntro ?? ''}
 			/>
 			<OutstandingProducts
 				listProduct={products?.slice(0, 3) ?? []}
