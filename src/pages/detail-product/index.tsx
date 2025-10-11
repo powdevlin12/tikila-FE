@@ -73,13 +73,13 @@ const DetailProduct = () => {
 				<ProductImage
 					$isMobile={isMobile}
 					$isPortrait={isPortraitImage}
-					src={productData.image_url}
+					src={productData.imageUrl}
 					alt={productData.title}
 					onLoad={handleImageLoad}
 				/>
 				<ProductContent $isMobile={isMobile}>
-					{productData.detail_info ? (
-						HTMLReactParser(productData.detail_info)
+					{productData.detailInfo ? (
+						HTMLReactParser(productData.detailInfo)
 					) : (
 						<div>
 							<p>{productData.description}</p>

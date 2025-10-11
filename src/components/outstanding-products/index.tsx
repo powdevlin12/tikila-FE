@@ -101,7 +101,7 @@ const OutstandingProducts = ({
 										<ItemOutstandingProduct
 											title={product?.title || ''}
 											description={product?.description || ''}
-											image={product?.image_url || ''}
+											image={product?.imageUrl || ''}
 											buttonText={'XEM CHI TIẾT'}
 											productId={product?.id}
 										/>
@@ -124,7 +124,7 @@ const OutstandingProducts = ({
 									<ItemOutstandingProduct
 										title={product?.title || ''}
 										description={product?.description || ''}
-										image={product?.image_url || ''}
+										image={product?.imageUrl || ''}
 										buttonText={'XEM CHI TIẾT'}
 										productId={product?.id}
 									/>

@@ -2,8 +2,8 @@ export interface Product {
 	id?: number;
 	title?: string;
 	description?: string;
-	image_url?: string;
+	imageUrl?: string;
 	company_id?: number | null;
-	detail_info?: string | null;
-	created_at?: Date;
+	detailInfo?: string | null;
+	createdAt?: Date;
 }
