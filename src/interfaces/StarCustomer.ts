@@ -1,10 +1,10 @@
 export interface StarCustomer {
 	id: number;
-	name_customer: string;
+	nameCustomer: string;
 	star: number;
 	content?: string;
-	created_at: string;
-	updated_at: string;
+	createdAt: string;
+	updatedAt: string;
 }
 
 export interface StarCustomerStats {

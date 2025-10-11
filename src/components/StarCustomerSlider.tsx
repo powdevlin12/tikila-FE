@@ -471,8 +471,8 @@ const StarCustomerSlider: React.FC<StarCustomerSliderProps> = ({
 												</ReviewContent>
 											</CardHeader>
 											<CardFooter $isMobile={isMobile}>
-												<CustomerName>{review.name_customer}</CustomerName>
-												<ReviewDate>{formatDate(review.created_at)}</ReviewDate>
+												<CustomerName>{review.nameCustomer}</CustomerName>
+												<ReviewDate>{formatDate(review.createdAt)}</ReviewDate>
 												{renderStars(review.star)}
 											</CardFooter>
 										</ReviewCard>
