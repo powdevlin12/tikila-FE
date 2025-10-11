@@ -8,6 +8,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { contactCustomerService } from '../../../../services/contactCustomer';
 import { useMediaQuery } from '../../../../hooks';
 import { MOBILE_MAX_WIDTH } from '../../../../contants/size';
+import type { ApiError } from '../../../../interfaces/ApiError';
+
+// Định nghĩa interface cho API Error
 
 type ContactSectionProps = {
 	listProduct: Product[];
@@ -61,10 +64,12 @@ const ContactSection = ({ listProduct }: ContactSectionProps) => {
 			};
 
 			// Gọi API
-			await contactCustomerService.saveCustomerContact(contactData);
+			const result = await contactCustomerService.saveCustomerContact(
+				contactData,
+			);
 
 			// Thành công
-			toast.success('Thông tin của bạn đã được gửi thành công!');
+			toast.success(result?.message ?? '');
 
 			// Reset form
 			setFormData({
@@ -75,8 +80,12 @@ const ContactSection = ({ listProduct }: ContactSectionProps) => {
 			});
 		} catch (error) {
 			// Xử lý lỗi
-			console.error('Error submitting contact:', error);
-			toast.error('Có lỗi xảy ra khi gửi thông tin. Vui lòng thử lại!');
+			const apiError = error as ApiError;
+			toast.error(
+				apiError?.response?.data?.message ??
+					apiError?.message ??
+					'Có lỗi xảy ra, thử lại sau',
+			);
 		} finally {
 			setIsSubmitting(false);
 		}

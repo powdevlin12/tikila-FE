@@ -17,7 +17,8 @@ export interface ContactCustomer {
 
 export interface ContactCustomerResponse {
 	message: string;
-	result: ContactCustomer;
+	status: string;
+	code: number;
 }
 
 export interface ContactCustomerListResponse {
