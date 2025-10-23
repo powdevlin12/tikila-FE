@@ -42,7 +42,7 @@ const HomeDesktop = ({ companyInfo, products, loadingProducts }: Props) => {
 
 const Wrapper = styled.section`
 	background: #ffffff;
-	width: 100%;
+	width: 100vw;
 	min-height: 100vh;
 	box-sizing: border-box;
 	margin: 0;
