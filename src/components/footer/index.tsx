@@ -1,3 +1,5 @@
+'use client';
+
 import { Col, Container, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import { ColumnFooter } from './ColumnFooter';

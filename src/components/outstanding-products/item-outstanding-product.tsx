@@ -1,7 +1,9 @@
+'use client';
+
 import { Card } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
-import { MdPhoneInTalk } from 'react-icons/md';
+import { PhoneCall } from 'lucide-react';
 
 type ItemOutstandingProductProps = {
 	title: string;
@@ -18,18 +20,18 @@ const ItemOutstandingProduct = ({
 	buttonText,
 	productId,
 }: ItemOutstandingProductProps) => {
-	const navigate = useNavigate();
+	const router = useRouter();
 
 	const handleCardClick = () => {
 		if (productId) {
-			navigate(`/product/${productId}`);
+			router.push(`/product/${productId}`);
 		}
 	};
 
 	const handleButtonClick = (e: React.MouseEvent) => {
 		e.stopPropagation(); // Ngăn sự kiện click của card
 		if (productId) {
-			navigate(`/product/${productId}`);
+			router.push(`/product/${productId}`);
 		}
 	};
 
@@ -44,7 +46,7 @@ const ItemOutstandingProduct = ({
 				<ProductDescription>{description}</ProductDescription>
 
 				<ActionButton onClick={handleButtonClick}>
-					<MdPhoneInTalk className='me-2' style={{ fontSize: '1.2rem' }} />
+					<PhoneCall size={20} className='me-2' />
 					{buttonText}
 				</ActionButton>
 			</CardContent>

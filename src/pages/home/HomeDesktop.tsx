@@ -1,3 +1,5 @@
+'use client';
+
 import styled from 'styled-components';
 import Header from '../../components/header';
 import BannerSection from './components/banner-section';

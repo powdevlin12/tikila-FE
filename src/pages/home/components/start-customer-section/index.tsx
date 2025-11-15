@@ -1,3 +1,5 @@
+'use client';
+
 import StarCustomerSlider from '../../../../components/StarCustomerSlider';
 
 const StartCustomerSection = () => {

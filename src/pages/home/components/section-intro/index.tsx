@@ -1,5 +1,7 @@
+'use client';
+
 import { Col, Container, Row } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import { useMediaQuery } from '../../../../hooks';
 import { MOBILE_MAX_WIDTH } from '../../../../contants/size';
@@ -10,7 +12,7 @@ type SectionIntroProps = {
 };
 
 const SectionIntro = ({ introContent, introImg }: SectionIntroProps) => {
-	const navigate = useNavigate();
+	const router = useRouter();
 	const isMobile = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH}px)`);
 
 	return (
@@ -39,7 +41,7 @@ const SectionIntro = ({ introContent, introImg }: SectionIntroProps) => {
 										{introContent || `Công ty TIKILA`}
 									</ContentText>
 
-									<ActionButton onClick={() => navigate('/introduce')}>
+									<ActionButton onClick={() => router.push('/introduce')}>
 										XEM THÊM
 										<ArrowIcon>→</ArrowIcon>
 									</ActionButton>
@@ -61,13 +63,12 @@ const SectionIntro = ({ introContent, introImg }: SectionIntroProps) => {
 										{introContent || `Công ty TIKILA`}
 									</ContentText>
 
-									<ActionButton onClick={() => navigate('/introduce')}>
+									<ActionButton onClick={() => router.push('/introduce')}>
 										XEM THÊM
 										<ArrowIcon>→</ArrowIcon>
 									</ActionButton>
 								</ContentWrapper>
-							</Col>
-
+							</Col>{' '}
 							{/* Right Column - Image */}
 							<Col lg={6} md={12}>
 								<ImageWrapper $isMobile={isMobile}>

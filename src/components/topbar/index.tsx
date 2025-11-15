@@ -1,6 +1,7 @@
+'use client';
+
 import { Col, Container, Row } from 'react-bootstrap';
 import styled from 'styled-components';
-import { SocialIcon } from 'react-social-icons';
 import facebookIcon from '../../assets/facebook.png';
 import youtubeIcon from '../../assets/youtube.png';
 import { useMediaQuery } from '../../hooks';
@@ -26,18 +27,25 @@ const Topbar = ({ content, fbLink, ytLink, tiktokLink }: TopbarProps) => {
 					<Col xs={6} className='text-end'>
 						<div className='social-icons'>
 							<img
-								src={facebookIcon}
+								src={facebookIcon.src}
 								alt='Facebook'
 								className='social-icon-img'
 								onClick={() => window.open(fbLink, '_blank')}
 							/>
 							<img
-								src={youtubeIcon}
+								src={youtubeIcon.src}
 								alt='YouTube'
 								className='social-icon-img-yt'
 								onClick={() => window.open(ytLink, '_blank')}
 							/>
-							<SocialIcon url={tiktokLink} style={{ width: 24, height: 24 }} />
+							{tiktokLink && (
+								<img
+									src='https://cdn-icons-png.flaticon.com/512/3046/3046121.png'
+									alt='TikTok'
+									className='social-icon-img'
+									onClick={() => window.open(tiktokLink, '_blank')}
+								/>
+							)}
 						</div>
 					</Col>
 				</Row>

@@ -1,7 +1,9 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { Carousel, Card, Row, Col } from 'react-bootstrap';
 import styled from 'styled-components';
-import { FaStar, FaQuoteLeft } from 'react-icons/fa';
+import { Star, Quote } from 'lucide-react';
 import { useApi } from '../services';
 import type { StarCustomer } from '../interfaces/StarCustomer';
 import { useMediaQuery } from '../hooks';
@@ -195,7 +197,7 @@ const CardHeader = styled.div<{ $isMobile?: boolean }>`
 	position: relative;
 `;
 
-const QuoteIcon = styled(FaQuoteLeft)`
+const QuoteIcon = styled(Quote)`
 	font-size: 2rem;
 	color: #3498db;
 	margin-bottom: 15px;
@@ -273,10 +275,11 @@ const StarsContainer = styled.div`
 	gap: 2px;
 `;
 
-const StarIcon = styled(FaStar)<{ $filled: boolean }>`
+const StarIcon = styled(Star)<{ $filled: boolean }>`
 	color: ${props => (props.$filled ? '#f39c12' : '#ddd')};
 	font-size: 1rem;
 	transition: color 0.2s ease;
+	fill: ${props => (props.$filled ? '#f39c12' : 'none')};
 `;
 
 const LoadingContainer = styled.div`

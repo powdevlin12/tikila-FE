@@ -1,66 +1,42 @@
-import HTMLReactParser from 'html-react-parser';
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import Header from '../../components/header';
-import LoadingView from '../../components/loading-view';
-import { MOBILE_MAX_WIDTH } from '../../contants/size';
-import { useMediaQuery, useScrollToTop, usePageTitle } from '../../hooks';
-import type { Product } from '../../interfaces/Product';
-import { useApiWithQuery } from '../../services';
-import Footer from '../../components/footer';
+'use client';
 
-const DetailProduct = () => {
-	const { id } = useParams<{ id: string }>();
+import { useState } from 'react';
+import styled from 'styled-components';
+import HTMLReactParser from 'html-react-parser';
+import { useMediaQuery, useScrollToTop } from '../../../src/hooks';
+import { MOBILE_MAX_WIDTH } from '../../../src/contants/size';
+import Header from '../../../src/components/header';
+import Footer from '../../../src/components/footer';
+import type { Product } from '../../../src/interfaces/Product';
+
+interface DetailProductClientProps {
+	product: Product | null;
+	productId: string;
+}
+
+export default function DetailProductClient({
+	product,
+	productId,
+}: DetailProductClientProps) {
 	const isMobile = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH}px)`);
 	const [isPortraitImage, setIsPortraitImage] = useState(false);
 
-	const {
-		data: productData,
-		loading,
-		error,
-	} = useApiWithQuery<Product>(`/products/${id}`, {});
+	useScrollToTop(productId);
 
-	// Set page title based on product title
-	usePageTitle(productData?.title || 'Chi tiết sản phẩm');
-
-	// Scroll to top when component mounts or when id changes
-	useScrollToTop(id ?? '');
-
-	// Function to handle image load and detect orientation
 	const handleImageLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
 		const img = event.currentTarget;
 		const isPortrait = img.naturalHeight > img.naturalWidth;
 		setIsPortraitImage(isPortrait);
 	};
 
-	if (loading) {
-		return (
-			<Wrapper>
-				<Header loading={true} />
-				<LoadingView />
-			</Wrapper>
-		);
-	}
-
-	if (error) {
-		return (
-			<Wrapper>
-				<Header />
-				<ContentContainer $isMobile={isMobile}>
-					<ErrorMessage>Có lỗi xảy ra khi tải thông tin sản phẩm</ErrorMessage>
-				</ContentContainer>
-			</Wrapper>
-		);
-	}
-
-	if (!productData) {
+	if (!product) {
 		return (
 			<Wrapper>
 				<Header />
 				<ContentContainer $isMobile={isMobile}>
 					<ErrorMessage>Không tìm thấy sản phẩm</ErrorMessage>
 				</ContentContainer>
+				<Footer />
 			</Wrapper>
 		);
 	}
@@ -69,20 +45,20 @@ const DetailProduct = () => {
 		<Wrapper>
 			<Header />
 			<ContentContainer $isMobile={isMobile}>
-				<ProductTitle $isMobile={isMobile}>{productData.title}</ProductTitle>
+				<ProductTitle $isMobile={isMobile}>{product.title}</ProductTitle>
 				<ProductImage
 					$isMobile={isMobile}
 					$isPortrait={isPortraitImage}
-					src={productData.imageUrl}
-					alt={productData.title}
+					src={product.imageUrl}
+					alt={product.title}
 					onLoad={handleImageLoad}
 				/>
 				<ProductContent $isMobile={isMobile}>
-					{productData.detailInfo ? (
-						HTMLReactParser(productData.detailInfo)
+					{product.detailInfo ? (
+						HTMLReactParser(product.detailInfo)
 					) : (
 						<div>
-							<p>{productData.description}</p>
+							<p>{product.description}</p>
 							<p>Chưa có thông tin chi tiết cho sản phẩm này</p>
 						</div>
 					)}
@@ -91,7 +67,7 @@ const DetailProduct = () => {
 			<Footer />
 		</Wrapper>
 	);
-};
+}
 
 const Wrapper = styled.section`
 	background: #ffffff;
@@ -136,31 +112,24 @@ const ProductTitle = styled.h1<{ $isMobile?: boolean }>`
 `;
 
 const ProductImage = styled.img<{ $isMobile?: boolean; $isPortrait?: boolean }>`
-	/* Container sizing */
 	max-width: ${props => {
 		if (props.$isMobile && props.$isPortrait) {
-			return '80%'; // Ảnh dọc trên mobile lớn hơn
+			return '80%';
 		}
 		return props.$isMobile ? '100%' : '70%';
 	}};
 	width: 100%;
 	height: ${props => {
 		if (props.$isMobile && props.$isPortrait) {
-			return '350px'; // Ảnh dọc trên mobile cao hơn
+			return '350px';
 		}
 		return props.$isMobile ? '250px' : '450px';
 	}};
-
-	/* Image behavior */
 	object-fit: cover;
 	object-position: center;
-
-	/* Layout */
 	border-radius: ${props => (props.$isMobile ? '8px' : '12px')};
 	margin: ${props => (props.$isMobile ? '15px auto 20px' : '30px auto')};
 	display: block;
-
-	/* Background */
 
 	@media (max-width: 768px) {
 		max-width: ${props => (props.$isPortrait ? '85%' : '100%')};
@@ -249,16 +218,9 @@ const ProductContent = styled.div<{ $isMobile?: boolean }>`
 	}
 
 	img {
-		/* Responsive image sizing */
-		/* max-width: ${props => (props.$isMobile ? '100%' : '90%')}; */
 		width: 100%;
-		/* height: ${props => (props.$isMobile ? '200px' : '300px')}; */
-
-		/* Image behavior */
 		object-fit: contain;
 		object-position: center;
-
-		/* Layout */
 		border-radius: ${props => (props.$isMobile ? '8px' : '12px')};
 		margin: ${props => (props.$isMobile ? '15px auto 20px' : '30px auto')};
 		display: block;
@@ -320,7 +282,6 @@ const ProductContent = styled.div<{ $isMobile?: boolean }>`
 		}
 	}
 
-	/* Style cho các đoạn văn đặc biệt */
 	strong {
 		color: #2c3e50;
 		font-weight: 600;
@@ -340,5 +301,3 @@ const ErrorMessage = styled.div`
 	border: 1px solid #f5c6cb;
 	border-radius: 8px;
 `;
-
-export default DetailProduct;

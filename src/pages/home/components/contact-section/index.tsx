@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { Button, Container, Form, Row } from 'react-bootstrap';
 import styled from 'styled-components';
@@ -168,7 +170,7 @@ const ContactSection = ({ listProduct }: ContactSectionProps) => {
 									disabled={isSubmitting}
 								>
 									{isSubmitting ? 'ĐANG GỬI...' : 'GỬI NGAY CHO CHÚNG TÔI'}
-									{!isSubmitting && <ImgSend src={sendIcon} alt='send' />}
+									{!isSubmitting && <ImgSend src={sendIcon.src} alt='send' />}
 								</SubmitButton>
 							</SubmitButtonWrapper>
 						</ContactForm>

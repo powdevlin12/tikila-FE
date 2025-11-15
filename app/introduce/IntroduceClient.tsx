@@ -1,48 +1,23 @@
+'use client';
+
 import styled from 'styled-components';
-import Header from '../../components/header';
 import HTMLReactParser from 'html-react-parser';
-import { useApiWithQuery } from '../../services';
-import LoadingView from '../../components/loading-view';
-import { useScrollToTop, useMediaQuery, usePageTitle } from '../../hooks';
-import { MOBILE_MAX_WIDTH } from '../../contants/size';
-import Footer from '../../components/footer';
+import { useMediaQuery, useScrollToTop } from '../../src/hooks';
+import { MOBILE_MAX_WIDTH } from '../../src/contants/size';
+import Header from '../../src/components/header';
+import Footer from '../../src/components/footer';
 
 interface IntroDetail {
 	intro_text_detail: string;
 }
 
-const Introduce = () => {
-	usePageTitle('Giới thiệu');
+interface IntroduceClientProps {
+	introData: IntroDetail | null;
+}
 
+export default function IntroduceClient({ introData }: IntroduceClientProps) {
 	const isMobile = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH}px)`);
-
-	const {
-		data: introData,
-		loading,
-		error,
-	} = useApiWithQuery<IntroDetail>('/company/intro-detail', {});
-
 	useScrollToTop('');
-
-	if (loading) {
-		return (
-			<Wrapper>
-				<Header loading={true} />
-				<LoadingView />
-			</Wrapper>
-		);
-	}
-
-	if (error) {
-		return (
-			<Wrapper>
-				<Header />
-				<ContentContainer $isMobile={isMobile}>
-					<ErrorMessage>Có lỗi xảy ra khi tải nội dung giới thiệu</ErrorMessage>
-				</ContentContainer>
-			</Wrapper>
-		);
-	}
 
 	return (
 		<Wrapper>
@@ -59,7 +34,7 @@ const Introduce = () => {
 			<Footer />
 		</Wrapper>
 	);
-};
+}
 
 const Wrapper = styled.section`
 	background: #ffffff;
@@ -162,21 +137,14 @@ const IntroContent = styled.div<{ $isMobile?: boolean }>`
 	}
 
 	img {
-		/* Responsive image sizing */
 		max-width: ${props => (props.$isMobile ? '100%' : '70%')};
 		width: 100%;
 		height: ${props => (props.$isMobile ? '300px' : '450px')};
-
-		/* Image behavior */
 		object-fit: cover;
 		object-position: center;
-
-		/* Layout */
 		border-radius: ${props => (props.$isMobile ? '8px' : '12px')};
 		margin: ${props => (props.$isMobile ? '15px auto 20px' : '30px auto')};
 		display: block;
-
-		/* Background */
 		background: #f8f9fa;
 
 		@media (max-width: 768px) {
@@ -236,7 +204,6 @@ const IntroContent = styled.div<{ $isMobile?: boolean }>`
 		}
 	}
 
-	/* Style cho các đoạn văn đặc biệt */
 	strong {
 		color: #2c3e50;
 		font-weight: 600;
@@ -246,15 +213,3 @@ const IntroContent = styled.div<{ $isMobile?: boolean }>`
 		color: #7f8c8d;
 	}
 `;
-
-const ErrorMessage = styled.div`
-	text-align: center;
-	padding: 60px 20px;
-	font-size: 18px;
-	color: #dc3545;
-	background-color: #f8d7da;
-	border: 1px solid #f5c6cb;
-	border-radius: 8px;
-`;
-
-export default Introduce;

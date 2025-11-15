@@ -1,3 +1,5 @@
+'use client';
+
 import { Container, Row, Col } from 'react-bootstrap';
 import styled from 'styled-components';
 import { useMediaQuery } from '../../../../hooks';

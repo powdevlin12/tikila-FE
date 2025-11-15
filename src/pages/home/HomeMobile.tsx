@@ -1,3 +1,5 @@
+'use client';
+
 import styled, { css } from 'styled-components';
 import Header from '../../components/header';
 import OutstandingProducts from '../../components/outstanding-products';

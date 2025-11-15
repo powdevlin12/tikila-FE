@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Tạo axios instance với config mặc định
 const apiClient = axios.create({
-	baseURL: import.meta.env.VITE_API_BASE_URL,
+	baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
 	timeout: 10000,
 	headers: {
 		'Content-Type': 'application/json',
@@ -12,9 +12,12 @@ const apiClient = axios.create({
 // Request interceptor - thêm token nếu có
 apiClient.interceptors.request.use(
 	config => {
-		const token = localStorage.getItem('token');
-		if (token) {
-			config.headers.Authorization = `Bearer ${token}`;
+		// Check if we're in the browser
+		if (typeof window !== 'undefined') {
+			const token = localStorage.getItem('token');
+			if (token) {
+				config.headers.Authorization = `Bearer ${token}`;
+			}
 		}
 		return config;
 	},
@@ -31,8 +34,10 @@ apiClient.interceptors.response.use(
 	error => {
 		if (error.response?.status === 401) {
 			// Token hết hạn, redirect về login
-			localStorage.removeItem('token');
-			window.location.href = '/login';
+			if (typeof window !== 'undefined') {
+				localStorage.removeItem('token');
+				window.location.href = '/login';
+			}
 		}
 		return Promise.reject(error);
 	},

@@ -1,3 +1,5 @@
+'use client';
+
 import { Container, Row, Col, Carousel } from 'react-bootstrap';
 import styled from 'styled-components';
 import ItemOutstandingProduct from './item-outstanding-product';

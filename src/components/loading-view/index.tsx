@@ -1,3 +1,5 @@
+'use client';
+
 import { Container } from 'react-bootstrap';
 import { RotateLoader } from 'react-spinners';
 import styled from 'styled-components';

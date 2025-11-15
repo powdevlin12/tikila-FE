@@ -1,7 +1,10 @@
+'use client';
+
 import { Container, Nav, Navbar } from 'react-bootstrap';
-import { BsTelephone } from 'react-icons/bs';
+import { Phone } from 'lucide-react';
 import styled from 'styled-components';
-import { useLocation, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { MOBILE_MAX_WIDTH } from '../../contants/size';
 import { useMediaQuery } from '../../hooks';
 
@@ -11,46 +14,48 @@ type CustomNavbarProps = {
 };
 
 const CustomNavbar = ({ phone, logo }: CustomNavbarProps) => {
-	const location = useLocation();
-	const navigate = useNavigate();
+	const pathname = usePathname();
 	const isMobile = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH}px)`);
 
 	return (
 		<StyledNavbar bg='white' expand='lg' className='shadow-sm'>
 			<StyledContainer fluid $isMobile={isMobile}>
 				{/* Logo */}
-				<StyledNavbarBrand onClick={() => navigate('/')}>
-					<img
-						src={logo}
-						alt='TIKILA Logo'
-						width='60'
-						height='60'
-						className='d-inline-block align-top me-2'
-					/>
-				</StyledNavbarBrand>
+				<Link href='/' passHref legacyBehavior>
+					<StyledNavbarBrand>
+						<img
+							src={
+								typeof logo === 'string'
+									? logo
+									: (logo as unknown as { src: string })?.src || ''
+							}
+							alt='TIKILA Logo'
+							width='60'
+							height='60'
+							className='d-inline-block align-top me-2'
+						/>
+					</StyledNavbarBrand>
+				</Link>
 
 				<Navbar.Toggle aria-controls='basic-navbar-nav' />
 				<Navbar.Collapse id='basic-navbar-nav'>
 					{/* Navigation Menu */}
 					<StyledNav className='me-auto' $isMobile={isMobile}>
-						<StyledNavLink
-							$isActive={location.pathname === '/'}
-							onClick={() => navigate('/')}
-						>
-							TRANG CHỦ
-						</StyledNavLink>
-						<StyledNavLink
-							$isActive={location.pathname === '/introduce'}
-							onClick={() => navigate('/introduce')}
-						>
-							GIỚI THIỆU
-						</StyledNavLink>
-						<StyledNavLink
-							$isActive={location.pathname === '/products'}
-							onClick={() => navigate('/products')}
-						>
-							SẢN PHẦM
-						</StyledNavLink>
+						<Link href='/' passHref legacyBehavior>
+							<StyledNavLink $isActive={pathname === '/'}>
+								TRANG CHỦ
+							</StyledNavLink>
+						</Link>
+						<Link href='/introduce' passHref legacyBehavior>
+							<StyledNavLink $isActive={pathname === '/introduce'}>
+								GIỚI THIỆU
+							</StyledNavLink>
+						</Link>
+						<Link href='/products' passHref legacyBehavior>
+							<StyledNavLink $isActive={pathname === '/products'}>
+								SẢN PHẦM
+							</StyledNavLink>
+						</Link>
 						<StyledNavLink
 							$isActive={false}
 							onClick={() =>
@@ -65,7 +70,7 @@ const CustomNavbar = ({ phone, logo }: CustomNavbarProps) => {
 						<HotlineInfo $isMobile={isMobile}>
 							<HotlineLabel>Hotline 24/7</HotlineLabel>
 							<HotlineNumber>
-								<BsTelephone className='me-1' />
+								<Phone size={16} className='me-1' />
 								{phone}
 							</HotlineNumber>
 						</HotlineInfo>

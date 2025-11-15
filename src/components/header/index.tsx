@@ -1,3 +1,5 @@
+'use client';
+
 import { Container } from 'react-bootstrap';
 import type { CompanyContact } from '../../interfaces/CompanyContact';
 import type { CompanyInfo } from '../../interfaces/CompanyInfo';
