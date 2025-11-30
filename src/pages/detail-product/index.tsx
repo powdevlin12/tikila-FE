@@ -136,24 +136,11 @@ const ProductTitle = styled.h1<{ $isMobile?: boolean }>`
 `;
 
 const ProductImage = styled.img<{ $isMobile?: boolean; $isPortrait?: boolean }>`
-	/* Container sizing */
-	max-width: ${props => {
-		if (props.$isMobile && props.$isPortrait) {
-			return '80%'; // Ảnh dọc trên mobile lớn hơn
-		}
-		return props.$isMobile ? '100%' : '70%';
-	}};
-	width: 100%;
-	height: ${props => {
-		if (props.$isMobile && props.$isPortrait) {
-			return '350px'; // Ảnh dọc trên mobile cao hơn
-		}
-		return props.$isMobile ? '250px' : '450px';
-	}};
-
-	/* Image behavior */
-	object-fit: cover;
-	object-position: center;
+	/* Responsive image sizing */
+	max-width: ${props => (props.$isMobile ? '100%' : '70%')};
+	max-height: ${props => (props.$isMobile ? '400px' : '600px')};
+	height: auto;
+	width: auto;
 
 	/* Layout */
 	border-radius: ${props => (props.$isMobile ? '8px' : '12px')};
@@ -161,12 +148,12 @@ const ProductImage = styled.img<{ $isMobile?: boolean; $isPortrait?: boolean }>`
 	display: block;
 
 	/* Background */
+	background: #f8f9fa;
 
 	@media (max-width: 768px) {
-		max-width: ${props => (props.$isPortrait ? '85%' : '100%')};
-		height: ${props => (props.$isPortrait ? '320px' : '280px')};
-		margin: 20px auto;
-		border-radius: 10px;
+		max-height: 350px;
+		margin: 15px auto;
+		border-radius: 8px;
 	}
 `;
 
@@ -250,21 +237,21 @@ const ProductContent = styled.div<{ $isMobile?: boolean }>`
 
 	img {
 		/* Responsive image sizing */
-		/* max-width: ${props => (props.$isMobile ? '100%' : '90%')}; */
-		width: 100%;
-		/* height: ${props => (props.$isMobile ? '200px' : '300px')}; */
-
-		/* Image behavior */
-		object-fit: contain;
-		object-position: center;
+		max-width: ${props => (props.$isMobile ? '100%' : '70%')};
+		max-height: ${props => (props.$isMobile ? '400px' : '600px')};
+		height: auto;
+		width: auto;
 
 		/* Layout */
 		border-radius: ${props => (props.$isMobile ? '8px' : '12px')};
 		margin: ${props => (props.$isMobile ? '15px auto 20px' : '30px auto')};
 		display: block;
 
+		/* Background */
+		background: #f8f9fa;
+
 		@media (max-width: 768px) {
-			height: 180px;
+			max-height: 350px;
 			margin: 15px auto;
 			border-radius: 8px;
 		}

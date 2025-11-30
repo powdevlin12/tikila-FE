@@ -164,12 +164,9 @@ const IntroContent = styled.div<{ $isMobile?: boolean }>`
 	img {
 		/* Responsive image sizing */
 		max-width: ${props => (props.$isMobile ? '100%' : '70%')};
-		width: 100%;
-		height: ${props => (props.$isMobile ? '300px' : '450px')};
-
-		/* Image behavior */
-		object-fit: cover;
-		object-position: center;
+		max-height: ${props => (props.$isMobile ? '400px' : '600px')};
+		height: auto;
+		width: auto;
 
 		/* Layout */
 		border-radius: ${props => (props.$isMobile ? '8px' : '12px')};
@@ -180,7 +177,7 @@ const IntroContent = styled.div<{ $isMobile?: boolean }>`
 		background: #f8f9fa;
 
 		@media (max-width: 768px) {
-			height: 280px;
+			max-height: 350px;
 			margin: 15px auto;
 			border-radius: 8px;
 		}
