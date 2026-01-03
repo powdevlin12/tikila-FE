@@ -42,9 +42,9 @@ const Products = () => {
 		<Wrapper>
 			<Topbar
 				content={dataCompanyInfo?.welcomeContent ?? ''}
-				fbLink={dataCompanyContact?.facebook_link ?? ''}
-				ytLink={dataCompanyContact?.zalo_link ?? ''}
-				tiktokLink={dataCompanyContact?.tiktok_link ?? ''}
+				fbLink={dataCompanyContact?.facebookLink ?? ''}
+				zaloLink={dataCompanyContact?.zaloLink ?? ''}
+				tiktokLink={dataCompanyContact?.tiktokLink ?? ''}
 			/>
 			<CustomNavbar
 				phone={dataCompanyContact?.phone ?? ''}

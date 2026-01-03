@@ -2,18 +2,18 @@ import { Col, Container, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import { SocialIcon } from 'react-social-icons';
 import facebookIcon from '../../assets/facebook.png';
-import youtubeIcon from '../../assets/youtube.png';
+import zaloIcon from '../../assets/zalo.webp';
 import { useMediaQuery } from '../../hooks';
 import { MOBILE_MAX_WIDTH } from '../../contants/size';
 
 type TopbarProps = {
 	content: string;
 	fbLink: string;
-	ytLink: string;
 	tiktokLink: string;
+	zaloLink: string;
 };
 
-const Topbar = ({ content, fbLink, ytLink, tiktokLink }: TopbarProps) => {
+const Topbar = ({ content, fbLink, tiktokLink, zaloLink }: TopbarProps) => {
 	const isMobile = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH}px)`);
 
 	return (
@@ -25,19 +25,29 @@ const Topbar = ({ content, fbLink, ytLink, tiktokLink }: TopbarProps) => {
 					</Col>
 					<Col xs={6} className='text-end'>
 						<div className='social-icons'>
-							<img
-								src={facebookIcon}
-								alt='Facebook'
-								className='social-icon-img'
-								onClick={() => window.open(fbLink, '_blank')}
-							/>
-							<img
-								src={youtubeIcon}
-								alt='YouTube'
-								className='social-icon-img-yt'
-								onClick={() => window.open(ytLink, '_blank')}
-							/>
-							<SocialIcon url={tiktokLink} style={{ width: 24, height: 24 }} />
+							{!!fbLink && (
+								<img
+									src={facebookIcon}
+									alt='Facebook'
+									className='social-icon-img'
+									onClick={() => window.open(fbLink, '_blank')}
+								/>
+							)}
+
+							{!!zaloLink && (
+								<img
+									src={zaloIcon}
+									alt='Zalo'
+									className='social-icon-img-yt'
+									onClick={() => window.open(zaloLink, '_blank')}
+								/>
+							)}
+							{!!tiktokLink && (
+								<SocialIcon
+									url={tiktokLink}
+									style={{ width: 24, height: 24 }}
+								/>
+							)}
 						</div>
 					</Col>
 				</Row>
@@ -80,11 +90,11 @@ const Wrapper = styled.section<{ $isMobile?: boolean }>`
 	}
 
 	.social-icon-img-yt {
-		width: 20px;
-		height: 14px;
+		width: 24px;
+		height: 24px;
 		cursor: pointer;
 		transition: opacity 0.3s ease;
-		object-fit: contain;
+		object-fit: cover;
 
 		&:hover {
 			opacity: 0.8;

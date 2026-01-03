@@ -25,9 +25,9 @@ const Header = ({ loading = false }: HeaderProps) => {
 		<Container style={{ margin: 0, padding: 0 }} fluid>
 			<Topbar
 				content={dataCompanyInfo?.welcomeContent ?? ''}
-				fbLink={dataCompanyContact?.facebook_link ?? ''}
-				ytLink={dataCompanyContact?.zalo_link ?? ''}
-				tiktokLink={dataCompanyContact?.tiktok_link ?? ''}
+				fbLink={dataCompanyContact?.facebookLink ?? ''}
+				tiktokLink={dataCompanyContact?.tiktokLink ?? ''}
+				zaloLink={dataCompanyContact?.zaloLink ?? ''}
 			/>
 			<CustomNavbar
 				phone={dataCompanyContact?.phone ?? ''}

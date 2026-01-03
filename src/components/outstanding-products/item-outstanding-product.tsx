@@ -1,7 +1,7 @@
 import { Card } from 'react-bootstrap';
+import { MdArrowCircleRight } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { MdPhoneInTalk } from 'react-icons/md';
 
 type ItemOutstandingProductProps = {
 	title: string;
@@ -44,7 +44,7 @@ const ItemOutstandingProduct = ({
 				<ProductDescription>{description}</ProductDescription>
 
 				<ActionButton onClick={handleButtonClick}>
-					<MdPhoneInTalk className='me-2' style={{ fontSize: '1.2rem' }} />
+					<MdArrowCircleRight className='me-2' style={{ fontSize: '1.4rem' }} />
 					{buttonText}
 				</ActionButton>
 			</CardContent>
